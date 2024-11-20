@@ -1,0 +1,1436 @@
+:root {
+  --main-color: rgba(0, 0, 0, 0.9);
+  --submain-color: whitesmoke;
+  --select: rgba(0, 140, 0, 0.889);
+  --nav-gallery-bar:rgb(43, 127, 91);
+  --nav-gallery-bar-sub:#88a78e;
+  --nav-gallery-bar-sub-sub:#98ba9f;
+  --background:rgb(255, 255, 255);
+
+  --header-height: 80px;
+}
+
+@font-face {
+  font-family: FontHeader;
+  src: url("fonts/LuloCleanW05-OneBold.woff2");
+}
+
+@font-face {
+  font-family: FontText;
+  src: url("fonts/Montserrat/Montserrat-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: FontTextHeaders;
+  src: url("fonts/Quicksand-Bold.ttf");
+}
+
+@font-face {
+  font-family: FontGallery;
+  src: url("fonts/New_Amsterdam/NewAmsterdam-Regular.ttf");
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+  font-family: FontHeader, sans-serif;
+  background-color: var(--background);
+  /* Aby byl footer pořád dole */
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh;
+}
+
+.container, .container-contact {
+  width: 100%;
+  margin: 0 auto;
+  text-align: justify;
+  font-family: FontText;
+  /* border: 2px solid red; */
+}
+
+.container, .contact{
+  padding: 50px 50px;
+}
+
+.container h2, .container-contact h2 {
+  text-align: center;
+  padding-bottom: 15px;
+  font: FontTextHeaders;
+  font-size: 40px;
+  text-decoration: underline;
+  /* border: 2px solid darkred; */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table td {
+  padding: 8px;
+  border: 1px solid black;
+}
+/* ################################################################################################################################ */
+
+/* ============================================================ HEADER ============================================================ */
+
+header {
+  position: relative;
+  height: var(--header-height);
+  width: 100%;
+  display: flex;                          /* Bez toho by byl erb, nadpis a odkazy pod sebou -> všechny elementy jdou za sebou */
+  justify-content: center;                /* Vytvoří horizontálně vycentrované objekty */
+  align-items: center;                    /* Vytvoří vertikálně vycentrované objekty */
+  background-color: var(--main-color);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  z-index: 100;
+  /* border: 2px solid blue; */
+}
+
+/* Logo, Nadpis, Navigace */
+#logo {
+  max-height: 100%;
+  max-width: 100px;
+  margin-top: 4px;
+  margin-left: 10px;
+  padding: 5px;
+  cursor: pointer;
+  /* border: 2px solid green; */
+}
+
+.nadpis {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--submain-color);
+  font-family: normal normal normal 130px/1em lulo-clean-w01-one-bold,lulo-clean-w05-one-bold,sans-serif;
+  margin-right: auto;                     /* Dopočítá marginy vpravo -> hodí celou navigaci doprava */
+  cursor: pointer;
+  /* border: 2px solid green; */
+}
+
+.nadpis a {
+  text-decoration: none;
+  color: var(--submain-color);
+}
+
+.nadpis-LT, .nadpis-Karstejn {
+  padding: 0 20px;
+  /* border: 2px solid orange; */
+}
+
+.nadpis-LT {
+  font-size: 18px;
+}
+
+.nadpis-Karstejn {
+  font-size: 23px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: 2px solid purple; */
+}
+
+.hamburger {
+  display: none;
+  padding-right: 15px;
+}
+
+/* Navigace */
+nav ul li {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;             /* žádné tečky */
+  font-size: 12px;
+  padding: 10px 15px;
+  /* border: 2px solid white; */
+}
+
+nav ul li a {
+  text-decoration: none;             /* Žádné podtržení */
+  color: var(--submain-color);
+  cursor: pointer;
+}
+
+nav ul li a:hover, .active {
+  color: var(--select);
+}
+
+.btn-prihlaska {
+  color: lightcoral;
+  border-radius: 30px;
+  padding: 8px;
+}
+
+.btn-prihlaska:hover {
+  background-color: whitesmoke;
+  color: lightcoral;
+}
+
+.social-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+  margin-right: 20px;
+  /* border: 2px solid yellow; */
+}
+
+.social-top a {
+  color: var(--submain-color);
+}
+
+.icon-fb, .icon-in, .icon-yt {
+  padding: 10px 15px;
+  /* border: 2px solid lightblue ; */
+}
+
+.icon-fb:hover, .social-bottom .icon-fb {
+  background-clip: text;
+  background: #3b5998;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.icon-in:hover, .social-bottom .icon-in {
+  background-clip: text;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.icon-yt:hover, .social-bottom .icon-yt {
+  background-clip: text;
+  background: #CD201F;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ============================================================ HOME ============================================================ */
+
+/* ==================== Úvodní scéna ==================== */
+.image-main {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;                          /* Ořízne se */
+  /* border: 2px solid darkcyan; */
+}
+
+#myVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  min-width: 100%; 
+  min-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+.image-main-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  height: auto;
+  width: 100%;
+  text-align: center;
+  /* border: 4px solid white; */
+}
+
+.image-main-header {
+  width: 100%;
+  font-size: 4vw;
+  color: var(--submain-color);  
+  /* border: 5px solid blueviolet; */
+}
+
+.image-main-anchors {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* border: 5px solid greenyellow; */
+}
+
+.image-main a {
+  text-decoration: none;
+  width: 250px;
+  color: var(--submain-color);
+  background-color: var(--main-color);
+  border-radius: 25px;
+  font-size: 16px;
+  padding: 10px;
+  margin: 30px;
+  /* border: 5px solid greenyellow; */
+}
+
+.image-main a:hover {
+  color: var(--select);
+}
+
+/* ==================== Section - grid ==================== */
+.section-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  /* border: 2px solid black; */
+}
+
+.section-grid-item {
+  padding: 25px;
+  position: relative;
+  padding-bottom: 70px;
+  /* border: 2px solid teal; */
+}
+
+.section-grid-item h3 {
+  padding-bottom: 15px;
+  font-size: 28px;
+  text-decoration: underline;
+  text-align: center;
+}
+
+.section-grid-item p {
+  font-size: 20px;
+  text-align: justify;
+}
+
+.section-grid-img img {
+  border-radius: 10px;
+  display: block;
+  max-width: 80%;
+  max-height: 80%;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  translate: 0 20px;
+}
+
+#parez {
+  float: left;
+  width: 45%;
+}
+
+#totem {
+  float: right;
+  width: 45%;
+  margin-left: 20px;
+}
+
+#esus {
+  float: left;
+  width: 45%;
+  margin: 10px;
+}
+
+#gong {
+  float: right;
+  width: 30%;
+  padding-left: 20px;
+}
+
+/* ==================== Rozdělovací obrázek ==================== */
+.image-home-div {
+  position: relative;
+  width: 100%;
+  height: 75vh;
+  text-align: center;
+  background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(images/svetlo_stromy.jpg);
+  background-position: center;
+  background-size: cover;
+}
+
+.image-home-div h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  color: white;
+  /* border: 2px solid chocolate; */
+}
+
+/* ==================== Náš tým ==================== */
+
+.drawing_teepee_totem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#teepee {
+  width: 40%;
+  /* border: 2px black solid; */
+}
+
+#totem_2 {
+  width: 30%;
+  /* border: 2px black solid; */
+}
+
+/* ==================== Kontakt ==================== */
+.contact {
+  background-color: #f3e1c3;
+  width: 100%;
+}
+
+.contact-grid {
+  display: grid;                                 
+  grid-template-columns: 300px 300px auto;
+  /* border: 2px solid red; */
+}
+
+.contact-grid-item h3{
+  font-size: 22px;
+  padding-top: 25px;
+  padding-bottom: 5px;
+  text-align: left;
+}
+
+.contact-grid-item h4{
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+
+.contact-grid-item p{
+  padding-bottom: 7px;
+}
+
+.contact-map iframe {
+  border-radius: 20px;
+  width: 100%;
+  margin-top: 25px;
+}
+
+/* ============================================================ INFO ============================================================ */
+
+/* ==================== Aktuality - carusel ==================== */
+.aktuality {
+  width: 90%;
+  margin: 0 auto;
+  /* border: 5px solid darkgoldenrod; */
+}
+
+.aktuality-carusel {
+  height: 70vh;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--submain-color);
+  border-radius: 20px;
+  /* border: 2px solid sandybrown; */
+}
+
+.aktuality-slider {
+  height: 100%;
+  display: flex;
+  width: 300%;  /* 3 sekce = 300% */
+  transition: all 0.5s;
+  /* border: 2px solid black; */
+}
+
+.aktuality-slider section {
+  flex-basis: 100%;         /* Celková šířka flexu */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid red; */
+}
+
+.controls .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.controls i {
+  font-size: 60px;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.controls ul {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%);
+  list-style: none;
+  display: flex;
+  padding: 0;  /* ul ma padding a margin by default - nepodarilo by se mi vycentrovat */
+  margin: 0;
+  /* border: 2px solid navy; */
+}
+
+.controls ul li {
+  width: 15px;
+  height: 15px;
+  border: 2px solid black;
+  border-radius: 50px;
+  margin: 10px;
+  background-color: black;
+  cursor: pointer;
+}
+
+.controls ul li.selected {
+  background: transparent;
+}
+
+/* -------------------- Aktualita ve slideru -------------------- */
+.aktualita {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 80%;
+  /* border: 2px solid hotpink; */
+}
+
+.aktualita img {
+  width: 220px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.aktualita h3 {
+  width: 300px;
+  margin: 0 auto;
+  font-size: 28px;
+  padding-bottom: 10px;
+}
+
+.aktualita p {
+  width: 300px;
+  margin: 0 auto;
+  font-size: 22px;
+  /* border: 2px solid lawngreen; */
+}
+
+.aktualita a {
+  color: darkblue;
+}
+
+/* ==================== Karštejn aktuální ==================== */
+#Karstejn-aktualni {
+  text-align: center;
+  /* border: 5px solid red; */
+}
+
+#Karstejn-aktualni h1{
+  font-size: 48px;
+  padding-bottom: 15px;
+  padding-top: 50px;
+  /* border: 5px solid seagreen; */
+}
+
+.karstejn-behy-info {
+  font-size: 22px;
+  /* border: 5px solid black; */
+}
+
+.behy-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  /* border: 5px solid orange; */
+}
+
+.behy-grid h2 {
+  padding: 30px 0 0 0;
+  /* border: 2px solid salmon; */
+}
+
+.behy-grid .datum-behu {
+  padding: 15px 0 0 0;
+  font-size: 30px;
+  /* border: 2px solid salmon; */
+}
+
+.behy-grid h3 {
+  padding: 15px 0;
+  font-size: 24px;
+  /* border: 2px solid salmon; */
+}
+
+.behy-grid img {
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  height: 500px;
+  border-radius: 10px;
+  /* border: 2px solid cadetblue; */
+}
+
+.behy-grid-item a {
+  text-decoration: none;
+  cursor: default;
+  pointer-events: none;
+  color: black;
+  display: block;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 15px;
+  width: 270px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #88a78e;
+  border-radius: 5px;
+}
+
+/* ==================== Obrázek - pozadí - rozdělovací ==================== */
+.image-info-div {
+  position: relative;
+  width: 100%;
+  height: 75vh;
+  text-align: center;
+  background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.0)), url(images/pozadi/P0000171.JPG);
+  background-position: center;
+  background-size: cover;
+  opacity: 0.9;
+  /* border: 5px solid goldenrod; */
+}
+
+.image-info-div h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  color: white;
+}
+
+/* ==================== Informace pro rodiče ==================== */
+.zazemi, .aktivity {
+  padding-bottom: 50px;
+}
+
+.photo-info {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-position: center;
+  background-size: cover;
+  border-radius: 15px;
+}
+
+.info-photo-gallery {
+  padding: 25px 0 75px 0;
+  display: flex;
+  gap: 40px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* ==================== Download ==================== */
+.section-download-grid {
+  display: grid;
+  grid-template-columns: 220px auto;
+  /* border: 2px solid palegreen; */
+}
+
+.section-download-grid-item {
+  padding: 20px 0;
+  /* border: 2px solid black; */
+}
+
+.section-download-grid-item p {
+  font-size: 18px;
+}
+
+.btn-download {
+  background-color: var(--main-color);
+  color: var(--submain-color);
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.btn-download:hover {
+  background-color: var(--submain-color);
+  color: var(--main-color);
+  font-weight: 500;
+  border: 2px solid var(--main-color)
+}
+
+/* ============================================================ GALLERY ============================================================ */
+
+/* ==================== Navigace ==================== */
+.nav-gallery-bar {
+  position: relative;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  background-color: var(--nav-gallery-bar-sub);
+  font-family: FontGallery;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  /* border: 2px solid blue; */
+}
+
+.nav-gallery-bar i {
+  font-size: 30px;
+}
+
+.nav-gallery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: 2px solid goldenrod; */
+}
+
+.nav-gallery ul li {
+  display: inline-flex;     /* V řadě */
+  text-align: center;
+  list-style-type: none;    /* Žádné tečky - žádný styl */
+}
+
+.nav-gallery ul li a {
+  color: black;
+  text-decoration: none;  /* Žádné podtržení */
+  display: inline-block;
+  min-width: 100px;
+  font-size: 20px;
+}
+
+.active-gallery, .active-album {
+  font-weight: bold;
+  padding: 15px;
+  background-color: var(--nav-gallery-bar);
+  border-radius: 5px;
+}
+
+.active-album {
+  font-style: italic;
+  cursor: default;
+}
+
+li:has(> a.non-active-album) {
+  display: none;
+}
+
+.nav-gallery ul li a:hover {
+  font-weight: bold;
+}
+
+.nav-gallery-control {
+  display: none;
+  height: 100%;
+  width: 100%;
+  /* border: 2px solid gold; */
+}
+
+.nav-gallery-control a {
+  color: black;
+}
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  /* border: 2px solid #CD201F; */
+}
+
+.arrow-back {
+  left: 10px;
+  transform: translate(0%, -50%);
+}
+
+.arrow-nav {
+  right: 10px;
+  transform: translate(0, -50%);
+}
+
+/* ==================== Galerie - obrázky ==================== */
+.photo-gallery {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* how many columns we want (5), and what size they should all be (1fr — or one fraction of the available space) */
+  grid-gap: 25px;
+  margin-top: 25px;
+}
+
+.album, .pic {
+  position: relative;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  background-position: center;
+  background-size: cover;
+  transition: 0.5s;
+  /* border: 2px solid blue; */
+}
+
+.album:hover, .pic:hover{
+  transform: scale(1.05);
+}
+
+.album::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  /* border: 2px solid red; */
+}
+
+.album:hover::before {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.album:hover > a .img-text{
+  display: none;
+}
+
+.album:hover > a .img-text-hidden{
+  display: block;
+}
+
+.img-text {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(255, 255, 255);
+  font-size: 60px;
+  font-weight: bold;
+  text-align: center;
+  font-family: FontGallery;
+}
+
+.img-text-hidden {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  display: none;
+  font-family: FontGallery;
+  width: 100%;
+}
+
+.pic img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  /* border: 2px solid red; */
+}
+
+/* ==================== LightBox ==================== */
+.lightbox {
+  position: fixed;
+  z-index: 75;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.65);
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  /* border: 5px solid firebrick; */
+}
+
+.lightbox-content {
+  position: relative;
+  height: 85%;
+  max-width: 70%;
+  margin: 80px auto;
+  /* background-color: #285AEB; */
+  /* border: 2px solid darkcyan; */
+}
+
+.lightbox-content img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 2px solid whitesmoke;
+  object-fit: cover;
+}
+
+.lightbox-prev, .lightbox-next {
+  position: absolute;
+  color: white;
+  top: 50%;
+  transform: translate(0, -50%);
+  cursor: pointer;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.lightbox-prev {
+  left: 10px;
+}
+
+.lightbox-next {
+  right: 10px;
+}
+
+.lightbox-content i {
+  font-size: 45px;
+}
+/* ============================================================ PRIHLASKA ============================================================ */
+
+
+.formular {
+  border: 1px gray solid;
+  background-color: var(--nav-gallery-bar-sub-sub);
+  border-radius: 10px;
+  width: 40%;
+  margin: 0 auto;
+  padding: 25px;
+  margin-bottom: 15px;
+}
+
+.prihlaska-instrukce {
+  width: 50%;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.submit-form {
+  display: flex;
+  justify-content: center;
+}
+
+.formular .main-label {
+  font-weight: 600;
+}
+
+.formular h4 {
+  padding: 10px 0;
+  font-size: 20px;
+}
+
+.formular h5 {
+  padding-bottom: 10px;
+  padding-top: 5px;
+  font-size: 14px;
+}
+
+.formular p {
+  font-style: italic;
+  padding-top: 5px;
+  font-size: 14px;
+}
+
+.formular ul {
+  padding-left: 0;
+  padding-bottom: 10px;
+}
+
+.formular ul ul {
+  padding-left: 30px;
+}
+
+.formular ul li {
+   list-style-position: inside;
+   padding-top: 5px;
+}
+
+.input-box .main-label {
+  display: block;
+  text-align: left;
+  /* border: 1px solid green; */
+}
+
+.input-box .input-text {
+  margin: 10px 0;
+  padding: 15px 15px;
+  position: relative;
+  width: 100%;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.input-box #input-text-jine {
+  margin: 10px 0;
+  padding: 15px 15px;
+  position: relative;
+  display: block;
+  width: 100%;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.input-box-radio {
+  /* border: 1px solid blue; */
+  margin: 10px 0;
+  width: 100%;
+  font-size: 16px;
+}
+
+.input-box-radio div {
+  /* border: 1px solid teal; */
+  margin: 5px;
+}
+.input-box-radio label {
+  /* border: 1px solid rebeccapurple; */
+  margin-left: 5px;
+}
+
+input[type=submit] {
+  background-color: var(--nav-gallery-bar);
+  border: 1px solid black;
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+input:disabled {
+  background-color: lightgrey;
+  cursor: not-allowed;
+}
+
+/* input[type="text"]:valid {
+  background-color: #f7f3c7;
+} */
+
+.form-ke-stazeni a {
+  display: block;
+  padding-bottom: 10px;
+  color: darkblue;
+}
+
+
+.required:after {
+	content: '*';
+	color: darkred;
+  padding-left: 5px;
+}
+
+
+.alert {
+  margin: 0 auto;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  margin: 30px 0;
+}
+
+.alert-success {
+  color: green;
+}
+
+.alert-danger {
+  color:red;
+}
+
+.alert-danger li {
+  list-style-type: none;
+}
+/* ============================================================ KRONIKA ============================================================ */
+
+/* KRONIKA */
+
+.kronika {
+  position: relative;
+  min-height: 100vh;
+  background-image: url(images/kronika.jpg);
+  background-position: center;
+  background-size: cover;
+}
+
+.kronika p {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 48px;
+}
+
+/* ============================================================ ZÁPATÍ ============================================================ */
+
+footer {
+  background-color: var(--main-color);
+  width: 100%;
+  text-align: center;
+  margin-top: auto;
+}
+
+footer a {
+  color: var(--submain-color);
+}
+
+.web-page-ref {
+  font-size: 10px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.social-bottom {
+  padding-bottom: 10px;
+}
+
+.social-bottom a {
+  padding: 0 10px;
+}
+
+/* ============================================================ Nastavení ============================================================ */
+
+/*
+label {
+  width: 62px;
+  height: 32px;
+  position: relative;
+  display: block;
+  border-radius: 50px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid black;
+  box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.4), inset 0px -2px 5px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+label::after {
+  content: "";
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  border-radius: 50px;
+  background-color: #7b8396;
+  transition: 0.3s;
+}
+
+input {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+input:checked + label::after {
+  left: 59px;
+  transform: translateX(-100%);
+  background-color: #285AEB;
+}
+
+.obdelnik {
+  width: 200px;
+  height: 300px;
+  background-color: #285AEB;
+}
+
+input:checked ~ .obdelnik {
+  background-color: #CD201F;
+}
+*/
+/* ################################################################################################################################ */
+
+@media only screen and (max-width: 1290px) {
+  /* ---------- Navigace ---------- */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    z-index: 100;           /* Aby se při zmenšení obrazovky rovnou zobrazila ručička jako pointer. Bez toho občas jen šipka */
+  }
+
+  .hamburger .line {
+    width: 30px;
+    height: 3px;
+    background: var(--submain-color);
+    margin: 6px 0;
+  }
+  
+  nav {
+    height: 0%;             /* nemá velký význam - spíš pro vývoj */
+    position: absolute;
+    top: 80px;              
+    left: 0;
+    right: 0;
+    display: block;
+    text-align: center;
+    background-color: var(--submain-color);
+    opacity: 1;             
+    transition: 0.5s;       /* Pomalu se zobrazí */
+    overflow: hidden;       /* Skryje se - funguje s opacity */
+  }
+
+  nav ul li {
+    padding-top: 0px;
+    margin: auto;
+    display: block;
+    opacity: 1;
+  }
+
+  nav ul li a {
+    color: var(--main-color);
+  }
+
+  nav .social-top {
+    margin: auto;
+    opacity: 0;
+  }
+
+  nav .social-top a {
+    color: var(--main-color);
+  }
+
+  .active_hamburger {
+    height: auto;
+  }
+
+  .active_hamburger ul {
+    padding-top: 15px;
+    /* border: 2px solid darkcyan; */
+  }
+
+  .active_hamburger ul li {
+    padding: 15px;
+    opacity: 1;
+    /* border: 2px solid black; */
+  }
+
+  .active_hamburger .social-top {
+    opacity: 1;
+    text-align: center;
+    padding-left: 0;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    /* border: 2px solid red; */
+  }
+
+  /* ---------- Odkazy na hlavním obrázku ---------- */
+  .image-main-anchors {
+    display: block;
+  }
+
+  .image-main a {
+    display: block;
+    margin: 15px auto;
+  }
+
+}
+
+@media only screen and (max-width: 1000px) {
+  .nav-gallery {
+    height: 0%;
+    width: 100%;
+    position: absolute;
+    top: 50px;
+    display: block;
+    text-align: center;
+    opacity: 1;             
+    transition: 0.5s;
+    /* overflow: hidden;  asi nahradím */
+    /* border: 2px solid red; */
+  }
+
+  .nav-gallery ul li {
+    padding-top: 0px;
+    width: 100%;
+    margin: auto;
+    display: block;
+    background-color: var(--nav-gallery-bar-sub-sub);
+  }
+
+  .nav-gallery ul .nonact {
+    opacity: 0;
+  }
+
+  .active-gallery{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    translate: 0 -25px;
+  }
+
+  .active-album {
+    position: absolute;
+    width: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    translate: 0 -25px;
+  }
+
+  .nav-gallery-control {
+    display: block;
+  }
+
+  .active-nav-gallery ul .nonact {
+    padding: 10px;
+    opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container, .contact{
+    padding: 25px 25px;
+  }
+
+  .image-main {
+    height: 80vh;
+    background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(images/stany.jpg);
+    background-position: center;
+    background-size: cover;
+  }
+
+  #myVideo {
+    display: none;
+  }
+
+  .image-main-header {
+    font-size: 5vw;
+    padding-bottom: 80px;
+  }
+
+  .section-grid {
+    grid-template-columns: auto;
+  }
+
+  .o-nas .section-grid .section-grid-item:nth-of-type(1){
+    order: 1;
+  }
+
+  .o-nas .section-grid .section-grid-item:nth-of-type(2){
+    order: 2;
+  }
+
+  .o-nas .section-grid .section-grid-item:nth-of-type(4){
+    order: 3;
+  }
+
+  .o-nas .section-grid .section-grid-item:nth-of-type(3){
+    order: 4;
+  }
+
+  .o-nas .section-grid .section-grid-item:nth-of-type(5){
+    order: 5;
+  }
+
+  .o-nas .section-grid .section-grid-item:nth-of-type(6){
+    order: 6;
+  }
+
+  .o-nas .section-grid .section-grid-item:nth-of-type(8){
+    order: 7;
+  }
+
+  .o-nas .section-grid .section-grid-item:nth-of-type(7){
+    order: 8;
+  }
+
+  .contact-grid {
+    grid-template-columns: auto;
+  }
+
+  .contact-grid h3{
+    padding-top: 15px;
+  }
+
+  .aktuality {
+    width: 100%;
+  }
+
+  .aktuality-carusel {
+    height: 60vh;
+  }
+
+  .aktualita img {
+    width: 65%;
+  }
+  
+  .aktualita p {
+    width: 90%;
+  }
+  
+  .aktualita h3 {
+    width: 90%;
+  }
+
+  .behy-grid {
+    grid-template-columns: auto;
+  }
+
+  .photo-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lightbox {
+    background-color: rgba(0, 0, 0, 0.9);
+    width: 100%;
+  }
+  
+  .lightbox-content {
+    height: 90%;
+    max-width: 100%;
+    margin: 80px auto;
+  }
+  
+  .lightbox-content img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    border-width: 0;
+    object-fit: cover;
+  }
+
+  .info-photo-gallery {
+    flex-direction: column;
+  }
+}
