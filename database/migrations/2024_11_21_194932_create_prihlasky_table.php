@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('prihlasky', function (Blueprint $table) {
             $table->id();
-            $table->string('variable_symbol');
+            $table->string('variable_symbol')->nullable();
             $table->string('parent_email');
             $table->string('parent_names');
             $table->string('parent_number');
