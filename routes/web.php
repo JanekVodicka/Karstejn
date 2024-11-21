@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\FormController;
 
 Route::get('/', function () {
     return view('index');
@@ -41,3 +42,6 @@ Route::get('settings', function() {
 
 Route::get('galerie/{event}/{year}', [GalleryController::class, 'show'])
     ->name('galerie');
+
+Route::post('form', [FormController::class, 'store'])
+->name('prihlaska.store');
