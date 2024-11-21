@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GalleryController;
 
 Route::get('/', function () {
     return view('index');
@@ -37,3 +38,6 @@ Route::get('prihlaska', function() {
 Route::get('settings', function() {
     return view('settings');
 })->name('settings');
+
+Route::get('galerie/{event}/{year}', [GalleryController::class, 'show'])
+    ->name('galerie');
