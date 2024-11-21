@@ -1,5 +1,5 @@
 <header>
-    <a href="{{ route('index') }}"><img id="logo" src="images/logo.png" alt="logo"></a>
+    <a href="{{ route('index') }}"><img id="logo" src="{{ asset("images/logo.png") }}" alt="logo"></a>
 
     <div class="nadpis">
         <a href="{{ route('index') }}">
