@@ -23,7 +23,7 @@ class FormController extends Controller
         $templates = [
             resource_path('templates/K{{ROK}}_Přihláška_{{DITE}}_I_beh.docx'),
             resource_path('templates/K{{ROK}}_Posudek_{{DITE}}_I_beh.docx'),
-            resource_path('templates/K{{ROK}}_List_účastníka_{{DITE}}_I_beh..docx'),
+            resource_path('templates/K{{ROK}}_List_účastníka_{{DITE}}_I_beh.docx'),
         ];
 
         // Process each template
@@ -92,7 +92,7 @@ class FormController extends Controller
 
     public function generateWordDocument($templatePath, $formdata, $rok, $termin, $cena)
     {
-        $outputPath = storage_path("app/public/2025/{$templatePath}_{$formdata->child_first_name}_{$formdata->child_last_name}.docx");
+        $outputPath = storage_path("app/public/2025/1_{$formdata->child_first_name}_{$formdata->child_last_name}.docx");
 
         $templateProcessor = new TemplateProcessor($templatePath);
         $templateProcessor->setValue('VAR_SYM', $formdata->variable_symbol);
