@@ -20,9 +20,9 @@ class FormController extends Controller
 
          // Templaty  file paths
         $templates = [
-            resource_path('templates/template_1.docx'),
-            resource_path('templates/template_2.docx'),
-            resource_path('templates/template_3.docx'),
+            resource_path('templates/K{{ROK}}_Přihláška_{{DITE}}_I_beh.docx'),
+            resource_path('templates/K{{ROK}}_Posudek_{{DITE}}_I_beh.docx'),
+            resource_path('templates/K{{ROK}}_List_účastníka_{{DITE}}_I_beh..docx'),
         ];
 
         $message_valid = 'Formulář byl úspěšně odeslán.';
