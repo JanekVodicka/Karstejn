@@ -21,15 +21,19 @@ class FormController extends Controller
 
          // Templaty  file paths
         $templates = [
-            resource_path('templates/K{{ROK}}_Přihláška_{{DITE}}_I_beh.docx'),
-            resource_path('templates/K{{ROK}}_Posudek_{{DITE}}_I_beh.docx'),
-            resource_path('templates/K{{ROK}}_List_účastníka_{{DITE}}_I_beh.docx'),
+            resource_path('templates/Přihláška_I_beh.docx'),
+            resource_path('templates/Posudek_I_beh.docx'),
+            resource_path('templates/List_účastníka_I_beh.docx'),
         ];
 
         // Process each template
         foreach ($templates as $template) {
+            $templateName = explode('/', $template);
+            $templateName = end($templateName);
+            $templateName = explode('.', $templateName)[0];
+
             // Generate Word document
-            $wordPath = $this->generateWordDocument($template, $formData, $rok, $termin, $cena);
+            $wordPath = $this->generateWordDocument($template, $templateName, $formData, $rok, $termin, $cena);
         }
 
         $message_valid = 'Formulář byl úspěšně odeslán.';
@@ -90,9 +94,9 @@ class FormController extends Controller
         return $rocnik;
     }
 
-    public function generateWordDocument($templatePath, $formData, $rok, $termin, $cena)
+    public function generateWordDocument($templatePath, $templateName, $formData, $rok, $termin, $cena)
     {
-        $outputPath = storage_path("app/public/2025/{$templatePath}_{$formData->child_first_name}_{$formData->child_last_name}.docx");
+        $outputPath = storage_path("app/public/2025/K{$rok}_{$templateName}_{$formData->child_first_name}_{$formData->child_last_name}.docx");
 
         $templateProcessor = new TemplateProcessor($templatePath);
         $templateProcessor->setValue('VAR_SYM', $formData->variable_symbol);
