@@ -7,6 +7,8 @@ use App\Models\FormModel;
 use App\Models\RocnikyModel;
 use Illuminate\Support\Carbon;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Settings;
 
 class FormController extends Controller
 {
@@ -34,6 +36,8 @@ class FormController extends Controller
 
             // Generate Word document
             $wordPath = $this->generateWordDocument($template, $templateName, $formData, $rok, $termin, $cena);
+
+            $pdfPaths[] = $this->convertToPdf($wordPath, $formData, $templateName, $rok);
         }
 
         $message_valid = 'Formulář byl úspěšně odeslán.';
@@ -121,5 +125,23 @@ class FormController extends Controller
         $templateProcessor->saveAs($outputPath);
 
         return $outputPath;
+    }
+
+    public function convertToPdf($wordFilePath, $formData, $templateName, $rok)
+    {
+        // Set PDF rendering library
+        Settings::setPdfRendererName(Settings::PDF_RENDERER_TCPDF);
+        Settings::setPdfRendererPath(base_path('vendor/tecnickcom/tcpdf'));
+        
+        // Load the Word file
+        $phpWord = IOFactory::load($wordFilePath);
+        $phpWord->setDefaultFontName('DejaVu Sans');
+
+        $pdfFilePath = storage_path("app/public/2025/K{$rok}_{$templateName}_{$formData->child_first_name}_{$formData->child_last_name}.pdf");
+
+        $pdfWriter = IOFactory::createWriter($phpWord, 'PDF');
+        $pdfWriter->save($pdfFilePath);
+
+        return $pdfFilePath;
     }
 }
