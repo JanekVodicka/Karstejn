@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\FormModel;
 use App\Models\RocnikyModel;
 use Illuminate\Support\Carbon;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class FormController extends Controller
 {
     public function handleFormSubmission(Request $request){
-        $this->store($request);
+        $formdata = $this->store($request);
 
         // Hodnoty z tabulky Rocniky
         $rocnik = $this->show('2024');
@@ -24,6 +25,12 @@ class FormController extends Controller
             resource_path('templates/K{{ROK}}_Posudek_{{DITE}}_I_beh.docx'),
             resource_path('templates/K{{ROK}}_List_účastníka_{{DITE}}_I_beh..docx'),
         ];
+
+        // Process each template
+        foreach ($templates as $template) {
+            // Generate Word document
+            $wordPath = $this->generateWordDocument($template, $formdata, $rok, $termin, $cena);
+        }
 
         $message_valid = 'Formulář byl úspěšně odeslán.';
 
@@ -81,5 +88,34 @@ class FormController extends Controller
         $rocnik = RocnikyModel::where('rok', $value)->first();
         
         return $rocnik;
+    }
+
+    public function generateWordDocument($templatePath, $formdata, $rok, $termin, $cena)
+    {
+        $outputPath = storage_path("app/public/2025/{$templatePath}_{$formdata->child_first_name}_{$formdata->child_last_name}.docx");
+
+        $templateProcessor = new TemplateProcessor($templatePath);
+        $templateProcessor->setValue('VAR_SYM', $formdata->variable_symbol);
+        $templateProcessor->setValue('EMAIL', $formdata->parent_email);
+        $templateProcessor->setValue('RODIC', $formdata->parent_names);
+        $templateProcessor->setValue('TELEFON', $formdata->parent_number);
+        $templateProcessor->setValue('RODIC_ULICE', $formdata->parent_street);
+        $templateProcessor->setValue('RODIC_OBEC', $formdata->parent_city);
+        $templateProcessor->setValue('RODIC_PSC', $formdata->parent_zip);
+        $templateProcessor->setValue('DITE_JMENO', $formdata->child_first_name);
+        $templateProcessor->setValue('DITE_PRIJMENI', $formdata->child_last_name);
+        $templateProcessor->setValue('DITE_DATUM_NAROZENI', $formdata->child_birthday);
+        $templateProcessor->setValue('DITE_ULICE', $formdata->child_street);
+        $templateProcessor->setValue('DITE_OBEC', $formdata->child_city);
+        $templateProcessor->setValue('DITE_PSC', $formdata->child_zip);
+        $templateProcessor->setValue('DITE_POZNAMKA', $formdata->child_note);
+        $templateProcessor->setValue('ROK', $rok);
+        $templateProcessor->setValue('TERMIN', $termin);
+        $templateProcessor->setValue('ZACATEK', explode(' - ',$termin)[0]);
+        $templateProcessor->setValue('CENA', $cena);
+
+        $templateProcessor->saveAs($outputPath);
+
+        return $outputPath;
     }
 }
