@@ -9,6 +9,8 @@ use Illuminate\Support\Carbon;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Settings;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\FormSubmittedMail;
 
 class FormController extends Controller
 {
@@ -41,6 +43,8 @@ class FormController extends Controller
         }
 
         $message_valid = 'Formulář byl úspěšně odeslán.';
+
+        Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
 
         return redirect()->back()->with('success', $message_valid);
     }
