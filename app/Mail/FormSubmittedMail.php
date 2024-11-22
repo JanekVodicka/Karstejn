@@ -34,7 +34,7 @@ class FormSubmittedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Form Submitted Mail',
+            subject: 'Potvrzení o přihlášce',
         );
     }
 
