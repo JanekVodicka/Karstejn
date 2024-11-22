@@ -43,5 +43,5 @@ Route::get('settings', function() {
 Route::get('galerie/{event}/{year}', [GalleryController::class, 'show'])
     ->name('galerie');
 
-Route::post('form', [FormController::class, 'store'])
+Route::post('form', [FormController::class, 'handleFormSubmission'])
 ->name('prihlaska.store');

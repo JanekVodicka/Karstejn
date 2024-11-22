@@ -8,6 +8,14 @@ use Illuminate\Support\Carbon;
 
 class FormController extends Controller
 {
+    public function handleFormSubmission(Request $request){
+        $this->store($request);
+
+        $message_valid = 'Formulář byl úspěšně odeslán.';
+
+        return redirect()->back()->with('success', $message_valid);
+    }
+
     public function store(Request $request)
     { 
         // Names in forms
@@ -43,12 +51,14 @@ class FormController extends Controller
         }
 
         // Uložení do databáze
-        $form = FormModel::create($validatedData);
+        $formdata = FormModel::create($validatedData);
 
         // Uložení VS do databáze
         $year = Carbon::now()->format('Y');
-        $idPart = str_pad($form->id % 1000, 3, '0', STR_PAD_LEFT);
-        $form->variable_symbol = $year . '01' . $idPart;
-        $form->save();
+        $idPart = str_pad($formdata->id % 1000, 3, '0', STR_PAD_LEFT);
+        $formdata->variable_symbol = $year . '01' . $idPart;
+        $formdata->save();
+
+        return $formdata;
     }
 }
