@@ -4,12 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FormModel;
+use App\Models\RocnikyModel;
 use Illuminate\Support\Carbon;
 
 class FormController extends Controller
 {
     public function handleFormSubmission(Request $request){
         $this->store($request);
+
+        // Hodnoty z tabulky Rocniky
+        $rocnik = $this->show('2024');
+        $rok = $rocnik->rok;
+        $termin = $rocnik->termin;
+        $cena = $rocnik->cena;
+
+         // Templaty  file paths
+        $templates = [
+            resource_path('templates/template_1.docx'),
+            resource_path('templates/template_2.docx'),
+            resource_path('templates/template_3.docx'),
+        ];
 
         $message_valid = 'Formulář byl úspěšně odeslán.';
 
@@ -60,5 +74,12 @@ class FormController extends Controller
         $formdata->save();
 
         return $formdata;
+    }
+    public function show($value)
+    {
+        // Retrieve the row where a specific column matches the given value
+        $rocnik = RocnikyModel::where('rok', $value)->first();
+        
+        return $rocnik;
     }
 }
