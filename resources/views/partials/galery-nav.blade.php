@@ -6,7 +6,7 @@
             </li>
             
             <li class="{{ $active === 'rocniky' ? 'act' : 'nonact' }}">
-                <a class="{{ $activealbum === 'rocniky' ? 'active-album' : 'non-active-album'}}">{{ $albumname }}</a>
+                <a class="{{ $activealbum === 'rocniky' ? 'active-album' : 'non-active-album'}}">{{ $year }} - {{ $albumname }}</a>
             </li>
 
             <li class="{{ $active === 'akce' ? 'act' : 'nonact' }}">
@@ -14,7 +14,7 @@
             </li>
 
             <li class="{{ $active === 'akce' ? 'act' : 'nonact' }}">
-                <a class="{{ $activealbum === 'akce' ? 'active-album' : 'non-active-album'}}">{{ $albumname }}</a>
+                <a class="{{ $activealbum === 'akce' ? 'active-album' : 'non-active-album'}}">{{ $year }} - {{ $albumname }}</a>
             </li>
 
             <li class="{{ $active === 'videa' ? 'act' : 'nonact' }}">

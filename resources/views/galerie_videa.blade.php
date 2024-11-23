@@ -2,7 +2,7 @@
 @section('title', 'Galerie-Videa')
 @section('content')
     <div class="container">
-        @include('partials.galery-nav', ['active' => 'videa', 'activealbum' => '', 'albumname' => ''])
+        @include('partials.galery-nav', ['active' => 'videa', 'activealbum' => '', 'year' => '', 'albumname' => ''])
         <div class="photo-gallery">
             <iframe width="560" height="315" src="https://www.youtube.com/embed/J-LVfhnlqu8?si=0Hkvro7nBY8GQhwG"
                 title="YouTube video player" frameborder="0"

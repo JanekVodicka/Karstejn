@@ -5,9 +5,9 @@
 @section('content')
     <div class="container">
         @if ($event == 'rocniky')
-            @include('partials.galery-nav', ['active' => $event, 'activealbum' => 'rocniky', 'albumname' => $albums_rocniky[$year]['title']])
+            @include('partials.galery-nav', ['active' => $event, 'activealbum' => 'rocniky', 'year' => $year, 'albumname' => $albums_rocniky[$year]['title']])
         @elseif ($event == 'akce')
-            @include('partials.galery-nav', ['active' => $event, 'activealbum' => 'akce', 'albumname' => $albums_akce[$year]['title']])
+            @include('partials.galery-nav', ['active' => $event, 'activealbum' => 'akce', 'year' => $year, 'albumname' => $albums_akce[$year]['title']])
         @endif
 
         <div class="photo-gallery">

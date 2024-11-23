@@ -2,7 +2,7 @@
 @section('title', 'Galerie-Akce')
 @section('content')
     <div class="container">
-        @include('partials.galery-nav', ['active' => 'akce', 'activealbum' => '', 'albumname' => ''])
+        @include('partials.galery-nav', ['active' => 'akce', 'activealbum' => '', 'year' => '', 'albumname' => ''])
         <div class="photo-gallery">
             @php
                 $albums = [
