@@ -18,7 +18,7 @@
         <ul class="nav-btns">
             <li><a href="{{ route('index') }}" class={{ request()->is('/') ? "active" : '' }}>Domů</a></li>
             <li><a href="{{ route('info') }}" class={{ request()->is('info') ? "active" : '' }}>Důležité info</a></li>
-            <li><a href="{{ route('galerie_rocniky') }}" class={{ request()->is('galerie_rocniky', 'galerie_akce', 'galerie_videa', 'galerie_ostatni') ? "active" : '' }}>Galerie</a></li>
+            <li><a href="{{ route('galerie_rocniky') }}" class={{ request()->is('galerie*') ? "active" : '' }}>Galerie</a></li>
             <li><a href="{{ route('kronika') }}" class={{ request()->is('kronika') ? "active" : '' }} >Kronika</a></li>
             <li><a class="btn-prihlaska" href="{{ route('prihlaska') }}">Přihláška</a></li>
         </ul>
