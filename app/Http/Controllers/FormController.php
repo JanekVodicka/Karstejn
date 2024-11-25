@@ -39,12 +39,12 @@ class FormController extends Controller
             // Generate Word document
             $wordPath = $this->generateWordDocument($template, $templateName, $formData, $rok, $termin, $cena);
 
-            $pdfPaths[] = $this->convertToPdf($wordPath, $formData, $templateName, $rok);
+            // $pdfPaths[] = $this->convertToPdf($wordPath, $formData, $templateName, $rok);
         }
 
         $message_valid = 'Formulář byl úspěšně odeslán.';
 
-        Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
+        // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
 
         return redirect()->back()->with('success', $message_valid);
     }
@@ -133,19 +133,6 @@ class FormController extends Controller
 
     public function convertToPdf($wordFilePath, $formData, $templateName, $rok)
     {
-        // Set PDF rendering library
-        Settings::setPdfRendererName(Settings::PDF_RENDERER_TCPDF);
-        Settings::setPdfRendererPath(base_path('vendor/tecnickcom/tcpdf'));
         
-        // Load the Word file
-        $phpWord = IOFactory::load($wordFilePath);
-        $phpWord->setDefaultFontName('DejaVu Sans');
-
-        $pdfFilePath = storage_path("app/public/2025/K{$rok}_{$templateName}_{$formData->child_first_name}_{$formData->child_last_name}.pdf");
-
-        $pdfWriter = IOFactory::createWriter($phpWord, 'PDF');
-        $pdfWriter->save($pdfFilePath);
-
-        return $pdfFilePath;
     }
 }
