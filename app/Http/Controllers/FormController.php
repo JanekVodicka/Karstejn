@@ -42,6 +42,8 @@ class FormController extends Controller
             // $pdfPaths[] = $this->convertToPdf($wordPath, $formData, $templateName, $rok);
         }
 
+        // $pdf = $this->fillPdf("test");
+
         $message_valid = 'Formulář byl úspěšně odeslán.';
 
         // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
@@ -129,10 +131,5 @@ class FormController extends Controller
         $templateProcessor->saveAs($outputPath);
 
         return $outputPath;
-    }
-
-    public function convertToPdf($wordFilePath, $formData, $templateName, $rok)
-    {
-        
     }
 }
