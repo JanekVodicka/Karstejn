@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\FormModel;
 use App\Models\RocnikyModel;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Google\Client;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Settings;
 use Illuminate\Support\Facades\Mail;
@@ -15,40 +18,77 @@ use App\Mail\FormSubmittedMail;
 class FormController extends Controller
 {
     public function handleFormSubmission(Request $request){
-        $formData = $this->store($request);
+        
+        // $formData = $this->store($request);
+
+        $accessToken = $this->token();
+        // dd($accessToken);
+
+        $filePath = 'resources/templates/List_účastníka_I_beh.docx';
+        // Retrieve the file name
+        $name = basename($filePath); // Output: "example.pdf"
+        // Retrieve the MIME type
+        $mime = Storage::mimeType($filePath); // Example output: "application/pdf"
+
+        $response=Http::withHeaders([
+            'Autorization' => 'Bearer ' . $accessToken,
+            'Content-Type' => 'Application/json'
+        ])->post('https://www.googleapis.com/upload/drive/v3/files',[
+            'data'=> $name,
+            'mimeType'=>$mime,
+            'uploadType'=>'resuable',
+            'parents'=>[\Config('services.google.folder_id')],
+        ]);    
+
+
+            if ($response->successful()) {
+                $file_id = json_decode($response->body())->id;
+                //dd($name);
+                // Save to db
+                // $uploadedfile = new File;
+                // $uploadedfile->file_name = $request->file_name;
+                // $uploadedfile->name=$name;
+                // $uploadedfile->fileid = $file_id;
+                // $uploadedfile->save();
+
+                return response('File Uploaded to Google Drive');
+            }
+
+
+        return response('Failed to Upload to Google Drive');
 
         // Hodnoty z tabulky Rocniky
-        $rocnik = $this->show('2024');
-        $rok = $rocnik->rok;
-        $termin = $rocnik->termin;
-        $cena = $rocnik->cena;
+        // $rocnik = $this->show('2024');
+        // $rok = $rocnik->rok;
+        // $termin = $rocnik->termin;
+        // $cena = $rocnik->cena;
 
-         // Templaty  file paths
-        $templates = [
-            resource_path('templates/Přihláška_I_beh.docx'),
-            resource_path('templates/Posudek_I_beh.docx'),
-            resource_path('templates/List_účastníka_I_beh.docx'),
-        ];
+        //  // Templaty  file paths
+        // $templates = [
+        //     resource_path('templates/Přihláška_I_beh.docx'),
+        //     resource_path('templates/Posudek_I_beh.docx'),
+        //     resource_path('templates/List_účastníka_I_beh.docx'),
+        // ];
 
-        // Process each template
-        foreach ($templates as $template) {
-            $templateName = explode('/', $template);
-            $templateName = end($templateName);
-            $templateName = explode('.', $templateName)[0];
+        // // Process each template
+        // foreach ($templates as $template) {
+        //     $templateName = explode('/', $template);
+        //     $templateName = end($templateName);
+        //     $templateName = explode('.', $templateName)[0];
 
-            // Generate Word document
-            $wordPath = $this->generateWordDocument($template, $templateName, $formData, $rok, $termin, $cena);
+        //     // Generate Word document
+        //     $wordPath = $this->generateWordDocument($template, $templateName, $formData, $rok, $termin, $cena);
 
-            // $pdfPaths[] = $this->convertToPdf($wordPath, $formData, $templateName, $rok);
-        }
+        //     // $pdfPaths[] = $this->convertToPdf($wordPath, $formData, $templateName, $rok);
+        // }
 
-        // $pdf = $this->fillPdf("test");
+        // // $pdf = $this->fillPdf("test");
 
-        $message_valid = 'Formulář byl úspěšně odeslán.';
+        // $message_valid = 'Formulář byl úspěšně odeslán.';
 
-        // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
+        // // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
 
-        return redirect()->back()->with('success', $message_valid);
+        // return redirect()->back()->with('success', $message_valid);
     }
 
     public function store(Request $request)
@@ -131,5 +171,30 @@ class FormController extends Controller
         $templateProcessor->saveAs($outputPath);
 
         return $outputPath;
+    }
+
+    public function token()
+    {
+        $client_id = \Config('services.google.client_id');
+        $client_secret = \Config('services.google.client_secret');
+        $refresh_token = \Config('services.google.refresh_token');
+        $folder_id = \Config('services.google.folder_id');
+
+        $response = Http::post('https://oauth2.googleapis.com/token', [
+
+            'client_id' => $client_id,
+            'client_secret' => $client_secret,
+            'refresh_token' => $refresh_token,
+            'grant_type' => 'refresh_token',
+
+        ]);
+        //dd($response);
+        $responseData = json_decode((string) $response->getBody(), true);
+
+        if (isset($responseData['access_token'])) {
+            return $responseData['access_token'];
+        }
+
+        // return $accessToken;
     }
 }

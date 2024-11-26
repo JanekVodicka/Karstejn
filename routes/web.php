@@ -45,3 +45,24 @@ Route::get('galerie/{event}/{year}', [GalleryController::class, 'show'])
 
 Route::post('form', [FormController::class, 'handleFormSubmission'])
 ->name('prihlaska.store');
+
+use Google\Client;
+
+Route::get('/test-google-drive', function () {
+    dd(env('GOOGLE_CLIENT_ID'));
+    try {
+        // Initialize the Google Client
+        $client = new Client();
+        $client->setClientId(env('GOOGLE_CLIENT_ID'));
+        $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
+        $client->setRedirectUri(url('/test-google-drive')); // Dummy redirect URI for testing
+        $client->addScope('https://www.googleapis.com/auth/drive');
+
+        // Generate Auth URL
+        $authUrl = $client->createAuthUrl();
+
+        return redirect($authUrl);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});
