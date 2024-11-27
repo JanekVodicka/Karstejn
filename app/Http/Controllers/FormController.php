@@ -21,66 +21,74 @@ class FormController extends Controller
 {
     public function handleFormSubmission(Request $request){
         
-        // $formData = $this->store($request);
+        // 1. Uložení do databáze
+        $formData = $this->store($request);
 
+        // 2. Hodnoty z tabulky databáze Rocniky
+        $rocnik = $this->show('2024');
+        $rok = $rocnik->rok;
+        $termin = $rocnik->termin;
+        $cena = $rocnik->cena;
+
+        // 3. Word
+        $templates = [
+            resource_path('templates/Přihláška_I_beh.docx'),
+            resource_path('templates/Posudek_I_beh.docx'),
+            resource_path('templates/List_účastníka_I_beh.docx'),
+        ];
+
+        // Process each template
+        foreach ($templates as $template) {
+            $templateName = explode('/', $template);
+            $templateName = end($templateName);
+            $templateName = explode('.', $templateName)[0];
+
+            // Generate Word document
+            $wordPaths[] = $this->generateWordDocument($template, $templateName, $formData, $rok, $termin, $cena);
+
+        }
+
+        // 4. Odeslání na drive
         $client = $this->getGoogleClient();
         $driveService = new Drive($client);
 
-        $fileMetaData = new DriveFile([
-            'name' => 'template',
-            'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')],
-            'mimeType' => 'application/vnd.google-apps.document'
-        ]);
+        $index = 0;
 
-        $content = file_get_contents(resource_path('templates/Posudek_I_beh.docx'));
-        $uploadedFile = $driveService->files->create($fileMetaData, [
-            'data' => $content,
-            'mimeType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'uploadType' => 'multipart',
-            'fields' => 'id',
-        ]);
+        foreach ($wordPaths as $wordpath) {
+            $wordBaseName = basename($wordpath,'.docx');
 
-        $fileId = $uploadedFile->getId();
-        $response = $driveService->files->export($fileId, 'application/pdf', [
-            'alt' => 'media',
-        ]);
+            $fileMetaData = new DriveFile([
+                'name' => $wordBaseName,
+                'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')],
+                'mimeType' => 'application/vnd.google-apps.document'
+            ]);
+    
+            $content = file_get_contents($wordPaths[$index]);
+            $uploadedFile = $driveService->files->create($fileMetaData, [
+                'data' => $content,
+                'mimeType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'uploadType' => 'multipart',
+                'fields' => 'id',
+            ]);
+    
+            $fileId = $uploadedFile->getId();
+            $response = $driveService->files->export($fileId, 'application/pdf', [
+                'alt' => 'media',
+            ]);
+    
+            // Save the PDF to the desired location
+            $destinationPath = storage_path('app/public/2025/'.$wordBaseName.'.pdf');
+            file_put_contents($destinationPath, $response->getBody());
+            $destinationPaths[] = $destinationPath;
+            $index++;
+        }
 
-        // Save the PDF to the desired location
-        $destinationPath = storage_path('app/public/template.pdf');
-        file_put_contents($destinationPath, $response->getBody());
+        // 5. Email
+        // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
 
-        // Hodnoty z tabulky Rocniky
-        // $rocnik = $this->show('2024');
-        // $rok = $rocnik->rok;
-        // $termin = $rocnik->termin;
-        // $cena = $rocnik->cena;
-
-        //  // Templaty  file paths
-        // $templates = [
-        //     resource_path('templates/Přihláška_I_beh.docx'),
-        //     resource_path('templates/Posudek_I_beh.docx'),
-        //     resource_path('templates/List_účastníka_I_beh.docx'),
-        // ];
-
-        // // Process each template
-        // foreach ($templates as $template) {
-        //     $templateName = explode('/', $template);
-        //     $templateName = end($templateName);
-        //     $templateName = explode('.', $templateName)[0];
-
-        //     // Generate Word document
-        //     $wordPath = $this->generateWordDocument($template, $templateName, $formData, $rok, $termin, $cena);
-
-        //     // $pdfPaths[] = $this->convertToPdf($wordPath, $formData, $templateName, $rok);
-        // }
-
-        // // $pdf = $this->fillPdf("test");
-
-        // $message_valid = 'Formulář byl úspěšně odeslán.';
-
-        // // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
-
-        // return redirect()->back()->with('success', $message_valid);
+        // 6. Návrat na stránku
+        $message_valid = 'Formulář byl úspěšně odeslán.';
+        return redirect()->back()->with('success', $message_valid);
     }
 
     public function store(Request $request)
@@ -198,28 +206,5 @@ class FormController extends Controller
         }
     
         return $client;
-    }
-
-    public function token()
-    {
-        $client_id = \Config('services.google.client_id');
-        $client_secret = \Config('services.google.client_secret');
-        $refresh_token = \Config('services.google.refresh_token');
-        $folder_id = \Config('services.google.folder_id');
-
-        $response = Http::post('https://oauth2.googleapis.com/token', [
-
-            'client_id' => $client_id,
-            'client_secret' => $client_secret,
-            'refresh_token' => $refresh_token,
-            'grant_type' => 'refresh_token',
-
-        ]);
-        //dd($response);
-        $responseData = json_decode((string) $response->getBody(), true);
-
-        if (isset($responseData['access_token'])) {
-            return $responseData['access_token'];
-        }
     }
 }
