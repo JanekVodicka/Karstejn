@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\FormController;
 
+
 Route::get('/', function () {
     return view('index');
 })->name('index');
@@ -49,13 +50,13 @@ Route::post('form', [FormController::class, 'handleFormSubmission'])
 use Google\Client;
 
 Route::get('/test-google-drive', function () {
-    dd(env('GOOGLE_CLIENT_ID'));
+    dd(env('GOOGLE_DRIVE_CLIENT_ID'));
     try {
         // Initialize the Google Client
         $client = new Client();
-        $client->setClientId(env('GOOGLE_CLIENT_ID'));
-        $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
-        $client->setRedirectUri(url('/test-google-drive')); // Dummy redirect URI for testing
+        $client->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
+        $client->setClientSecret(env('GOOGLE_DRIVE_CLIENT_SECRET'));
+        $client->setRedirectUri('http://localhost/web/karstejn/public/test-google-drive');
         $client->addScope('https://www.googleapis.com/auth/drive');
 
         // Generate Auth URL

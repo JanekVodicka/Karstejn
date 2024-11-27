@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Google\Client;
+use Google\Service\Drive;
+use Google\Service\Drive\DriveFile;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Settings;
 use Illuminate\Support\Facades\Mail;
@@ -21,41 +23,31 @@ class FormController extends Controller
         
         // $formData = $this->store($request);
 
-        $accessToken = $this->token();
-        // dd($accessToken);
+        $client = $this->getGoogleClient();
+        $driveService = new Drive($client);
 
-        $filePath = 'resources/templates/List_účastníka_I_beh.docx';
-        // Retrieve the file name
-        $name = basename($filePath); // Output: "example.pdf"
-        // Retrieve the MIME type
-        $mime = Storage::mimeType($filePath); // Example output: "application/pdf"
+        $fileMetaData = new DriveFile([
+            'name' => 'template',
+            'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')],
+            'mimeType' => 'application/vnd.google-apps.document'
+        ]);
 
-        $response=Http::withHeaders([
-            'Autorization' => 'Bearer ' . $accessToken,
-            'Content-Type' => 'Application/json'
-        ])->post('https://www.googleapis.com/upload/drive/v3/files',[
-            'data'=> $name,
-            'mimeType'=>$mime,
-            'uploadType'=>'resuable',
-            'parents'=>[\Config('services.google.folder_id')],
-        ]);    
+        $content = file_get_contents(resource_path('templates/Posudek_I_beh.docx'));
+        $uploadedFile = $driveService->files->create($fileMetaData, [
+            'data' => $content,
+            'mimeType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'uploadType' => 'multipart',
+            'fields' => 'id',
+        ]);
 
+        $fileId = $uploadedFile->getId();
+        $response = $driveService->files->export($fileId, 'application/pdf', [
+            'alt' => 'media',
+        ]);
 
-            if ($response->successful()) {
-                $file_id = json_decode($response->body())->id;
-                //dd($name);
-                // Save to db
-                // $uploadedfile = new File;
-                // $uploadedfile->file_name = $request->file_name;
-                // $uploadedfile->name=$name;
-                // $uploadedfile->fileid = $file_id;
-                // $uploadedfile->save();
-
-                return response('File Uploaded to Google Drive');
-            }
-
-
-        return response('Failed to Upload to Google Drive');
+        // Save the PDF to the desired location
+        $destinationPath = storage_path('app/public/template.pdf');
+        file_put_contents($destinationPath, $response->getBody());
 
         // Hodnoty z tabulky Rocniky
         // $rocnik = $this->show('2024');
@@ -173,6 +165,41 @@ class FormController extends Controller
         return $outputPath;
     }
 
+    private function getGoogleClient() {
+        $client = new Client();
+        $client->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
+        $client->setClientSecret(env('GOOGLE_DRIVE_CLIENT_SECRET'));
+        $client->setAccessType('offline');
+       
+        $refreshToken = env('GOOGLE_DRIVE_REFRESH_TOKEN');
+
+        // Validate that the refresh token exists
+        if (empty($refreshToken)) {
+            throw new \Exception("Refresh token is missing in .env file.");
+        }
+    
+        // Set a dummy token structure to include the refresh token
+        $client->setAccessToken([
+            'access_token' => '', // Dummy value, will be refreshed
+            'expires_in' => 0,   // Expired dummy value
+            'refresh_token' => $refreshToken,
+        ]);
+    
+        // Refresh the token if it is expired
+        if ($client->isAccessTokenExpired()) {
+            $newToken = $client->fetchAccessTokenWithRefreshToken($refreshToken);
+    
+            // Check if token fetch was successful
+            if (isset($newToken['error'])) {
+                throw new \Exception("Failed to refresh token: " . $newToken['error_description']);
+            }
+    
+            $client->setAccessToken($newToken);
+        }
+    
+        return $client;
+    }
+
     public function token()
     {
         $client_id = \Config('services.google.client_id');
@@ -194,7 +221,5 @@ class FormController extends Controller
         if (isset($responseData['access_token'])) {
             return $responseData['access_token'];
         }
-
-        // return $accessToken;
     }
 }
