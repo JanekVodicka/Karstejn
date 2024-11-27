@@ -5,10 +5,10 @@
 <br>
 <p>Děkujeme za přihlášení Vašeho dítěte na 1. běh letního táboéra Karštejn v termínu {{ $rocnik->termin }}.</p>
 <p>Prosíme o kontrolu Vámi odeslaných informací a následné vyplnění formulářů, které nalzenete v příloze tohoto emailu.</p>
-<p>Vyplněné formuláře prosím ....</p>
+<p>Vyplněné formuláře odevzdáte při předání dítěte.</p>
 <p>Platbu prosím proveďte s variabilním symbolem {{ $form->variable_symbol }}.</p>
 <br>
-<h3>Kontaktní osoba - rodič</h3>
+<h3>Kontaktní osoba:</h3>
 <ul>
     <li>Jméno: {{ $form->paren_names }}</li>
     <li>Email: {{ $form->parent_email }}</li>
@@ -23,7 +23,7 @@
     <li>Adresa: {{ $form->child_street }}, {{ $form->child_city }}, {{ $form->child_zip }} </li>
     <li>Poznámka: {{ $form->child_note }}</li>
 </ul>
-<h3>Další informace</h3>
+<h3>Další informace:</h3>
 <ul>
     <li>Místo nástupu: {{ $form->misto_nastupu }}</li>
     <li>Plavec: {{ $form->plavec }}</li>

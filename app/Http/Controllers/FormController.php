@@ -6,14 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\FormModel;
 use App\Models\RocnikyModel;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Google\Client;
 use Google\Service\Drive;
 use Google\Service\Drive\DriveFile;
-use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\Settings;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\FormSubmittedMail;
 
@@ -25,10 +22,20 @@ class FormController extends Controller
         $formData = $this->store($request);
 
         // 2. Hodnoty z tabulky databáze Rocniky
-        $rocnik = $this->show('2024');
+        $rocnik = $this->getRocnikFromDb(Carbon::now()->format('Y'));
         $rok = $rocnik->rok;
         $termin = $rocnik->termin;
         $cena = $rocnik->cena;
+
+        // 3. Složky
+        $folderNamePatient = "{$formData->child_first_name}_{$formData->child_last_name}";
+        
+        // Ensure the directories exist
+        if (!File::exists(storage_path("app/public/{$rok}/{$folderNamePatient}"))) {
+            File::makeDirectory(storage_path("app/public/{$rok}/{$folderNamePatient}"), 0755, true); // Create directories recursively
+        }
+        
+        $folderPathPatient = storage_path("app/public/{$rok}/{$folderNamePatient}"); // Full path to the folder
 
         // 3. Word
         $templates = [
@@ -36,15 +43,17 @@ class FormController extends Controller
             resource_path('templates/Posudek_I_beh.docx'),
             resource_path('templates/List_účastníka_I_beh.docx'),
         ];
-
+        
         // Process each template
         foreach ($templates as $template) {
             $templateName = explode('/', $template);
             $templateName = end($templateName);
             $templateName = explode('.', $templateName)[0];
 
+            $wordDocumentName = "K{$rok}_{$templateName}_{$formData->child_first_name}_{$formData->child_last_name}";
+
             // Generate Word document
-            $wordPaths[] = $this->generateWordDocument($template, $templateName, $formData, $rok, $termin, $cena);
+            $wordPaths[] = $this->generateWordDocument($folderPathPatient, $wordDocumentName,$template, $formData, $rok, $termin, $cena);
 
         }
 
@@ -55,10 +64,11 @@ class FormController extends Controller
         $index = 0;
 
         foreach ($wordPaths as $wordpath) {
-            $wordBaseName = basename($wordpath,'.docx');
+            
+            $wordDocumentBaseName = basename($wordpath,'.docx');
 
             $fileMetaData = new DriveFile([
-                'name' => $wordBaseName,
+                'name' => $wordDocumentBaseName,
                 'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')],
                 'mimeType' => 'application/vnd.google-apps.document'
             ]);
@@ -77,14 +87,14 @@ class FormController extends Controller
             ]);
     
             // Save the PDF to the desired location
-            $destinationPath = storage_path('app/public/2025/'.$wordBaseName.'.pdf');
+            $destinationPath = "{$folderPathPatient}/$wordDocumentBaseName.pdf";
             file_put_contents($destinationPath, $response->getBody());
             $destinationPaths[] = $destinationPath;
             $index++;
         }
-
+        
         // 5. Email
-        // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
+        Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $destinationPaths, $rocnik));
 
         // 6. Návrat na stránku
         $message_valid = 'Formulář byl úspěšně odeslán.';
@@ -136,7 +146,8 @@ class FormController extends Controller
 
         return $formdata;
     }
-    public function show($value)
+
+    public function getRocnikFromDb($value)
     {
         // Retrieve the row where a specific column matches the given value
         $rocnik = RocnikyModel::where('rok', $value)->first();
@@ -144,9 +155,9 @@ class FormController extends Controller
         return $rocnik;
     }
 
-    public function generateWordDocument($templatePath, $templateName, $formData, $rok, $termin, $cena)
+    public function generateWordDocument($folderPathPatient, $wordDocumentName, $templatePath, $formData, $rok, $termin, $cena)
     {
-        $outputPath = storage_path("app/public/2025/K{$rok}_{$templateName}_{$formData->child_first_name}_{$formData->child_last_name}.docx");
+        $outputPath = "{$folderPathPatient}/{$wordDocumentName}.docx";
 
         $templateProcessor = new TemplateProcessor($templatePath);
         $templateProcessor->setValue('VAR_SYM', $formData->variable_symbol);
