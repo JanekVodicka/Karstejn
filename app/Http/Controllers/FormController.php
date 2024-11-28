@@ -19,7 +19,7 @@ class FormController extends Controller
     public function handleFormSubmission(Request $request){
         
         // 1. Uložení do databáze
-        $formData = $this->store($request);
+        $formData = $this->storeToDb($request);
 
         // 2. Hodnoty z tabulky databáze Rocniky
         $rocnik = $this->getRocnikFromDb(Carbon::now()->format('Y'));
@@ -38,70 +38,20 @@ class FormController extends Controller
         $folderPathPatient = storage_path("app/public/{$rok}/{$folderNamePatient}"); // Full path to the folder
 
         // 3. Word
-        $templates = [
-            resource_path('templates/Přihláška_I_beh.docx'),
-            resource_path('templates/Posudek_I_beh.docx'),
-            resource_path('templates/List_účastníka_I_beh.docx'),
-        ];
-        
-        // Process each template
-        foreach ($templates as $template) {
-            $templateName = explode('/', $template);
-            $templateName = end($templateName);
-            $templateName = explode('.', $templateName)[0];
+        $wordPaths = $this->storeWordDoc($formData, $folderPathPatient, $rok, $termin, $cena);
 
-            $wordDocumentName = "K{$rok}_{$templateName}_{$formData->child_first_name}_{$formData->child_last_name}";
-
-            // Generate Word document
-            $wordPaths[] = $this->generateWordDocument($folderPathPatient, $wordDocumentName,$template, $formData, $rok, $termin, $cena);
-
-        }
-
-        // 4. Odeslání na drive
-        $client = $this->getGoogleClient();
-        $driveService = new Drive($client);
-
-        $index = 0;
-
-        foreach ($wordPaths as $wordpath) {
-            
-            $wordDocumentBaseName = basename($wordpath,'.docx');
-
-            $fileMetaData = new DriveFile([
-                'name' => $wordDocumentBaseName,
-                'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')],
-                'mimeType' => 'application/vnd.google-apps.document'
-            ]);
-    
-            $content = file_get_contents($wordPaths[$index]);
-            $uploadedFile = $driveService->files->create($fileMetaData, [
-                'data' => $content,
-                'mimeType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'uploadType' => 'multipart',
-                'fields' => 'id',
-            ]);
-    
-            $fileId = $uploadedFile->getId();
-            $response = $driveService->files->export($fileId, 'application/pdf', [
-                'alt' => 'media',
-            ]);
-    
-            // Save the PDF to the desired location
-            $destinationPath = "{$folderPathPatient}/$wordDocumentBaseName.pdf";
-            file_put_contents($destinationPath, $response->getBody());
-            $destinationPaths[] = $destinationPath;
-            $index++;
-        }
+        // 4. Odeslání na drive a uložení lokálně
+        $pdfPaths = $this->storePdfsToDrive($wordPaths, $folderPathPatient);
         
         // 5. Email
-        Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $destinationPaths, $rocnik));
+        Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
 
         // 6. Návrat na stránku
         $message_valid = 'Formulář byl úspěšně odeslán.';
         return redirect()->back()->with('success', $message_valid);
     }
 
-    public function store(Request $request)
+    public function storeToDb(Request $request)
     { 
         // Names in forms
         $validatedData = $request->validate([
@@ -184,6 +134,27 @@ class FormController extends Controller
         return $outputPath;
     }
 
+    private function storeWordDoc($formData, $folderPathPatient, $rok, $termin, $cena) {
+        $dirTemplates = resource_path('templates');
+
+        // Get all DOCX files from the dirTemplates
+        $templates = collect(File::files($dirTemplates))
+            ->filter(fn($file) => $file->getExtension() === 'docx')
+            ->map(fn($file) => $file->getPathname())
+            ->values()
+            ->toArray();
+        
+        // Process each template
+        foreach ($templates as $template) {
+            $templateName = basename($template, '.docx');
+            $wordDocumentName = "K{$rok}_{$templateName}_{$formData->child_first_name}_{$formData->child_last_name}";
+
+            // Generate Word document
+            $wordPaths[] = $this->generateWordDocument($folderPathPatient, $wordDocumentName,$template, $formData, $rok, $termin, $cena);
+        }
+        return $wordPaths;
+    }
+
     private function getGoogleClient() {
         $client = new Client();
         $client->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
@@ -217,5 +188,45 @@ class FormController extends Controller
         }
     
         return $client;
+    }
+
+    private function storePdfsToDrive($wordPaths, $folderPathPatient){
+        $client = $this->getGoogleClient();
+        $driveService = new Drive($client);
+
+        $index = 0;
+
+        // Process each PDF
+        foreach ($wordPaths as $wordpath) {
+            
+            $wordDocumentBaseName = basename($wordpath,'.docx');
+
+            $fileMetaData = new DriveFile([
+                'name' => $wordDocumentBaseName,
+                'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')],
+                'mimeType' => 'application/vnd.google-apps.document'
+            ]);
+    
+            $content = file_get_contents($wordPaths[$index]);
+            $uploadedFile = $driveService->files->create($fileMetaData, [
+                'data' => $content,
+                'mimeType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'uploadType' => 'multipart',
+                'fields' => 'id',
+            ]);
+    
+            $fileId = $uploadedFile->getId();
+            $response = $driveService->files->export($fileId, 'application/pdf', [
+                'alt' => 'media',
+            ]);
+    
+            // Save the PDF to the desired location
+            $destinationPath = "{$folderPathPatient}/$wordDocumentBaseName.pdf";
+            file_put_contents($destinationPath, $response->getBody());
+            $pdfPaths[] = $destinationPath;
+            $index++;
+
+            return $pdfPaths;
+        }
     }
 }
