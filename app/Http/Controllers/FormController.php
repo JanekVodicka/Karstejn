@@ -23,22 +23,19 @@ class FormController extends Controller
 
         // 2. Hodnoty z tabulky databáze Rocniky
         $rocnik = $this->getRocnikFromDb(Carbon::now()->format('Y'));
-        $rok = $rocnik->rok;
-        $termin = $rocnik->termin;
-        $cena = $rocnik->cena;
 
         // 3. Složky
         $folderNamePatient = "{$formData->child_first_name}_{$formData->child_last_name}";
         
         // Ensure the directories exist
-        if (!File::exists(storage_path("app/public/{$rok}/{$folderNamePatient}"))) {
-            File::makeDirectory(storage_path("app/public/{$rok}/{$folderNamePatient}"), 0755, true); // Create directories recursively
+        if (!File::exists(storage_path("app/public/{$rocnik->rok}/{$folderNamePatient}"))) {
+            File::makeDirectory(storage_path("app/public/{$rocnik->rok}/{$folderNamePatient}"), 0755, true); // Create directories recursively
         }
         
-        $folderPathPatient = storage_path("app/public/{$rok}/{$folderNamePatient}"); // Full path to the folder
+        $folderPathPatient = storage_path("app/public/{$rocnik->rok}/{$folderNamePatient}"); // Full path to the folder
 
-        // 3. Word
-        $wordPaths = $this->storeWordDoc($formData, $folderPathPatient, $rok, $termin, $cena);
+        // 3. Word vyplnění a uložení lokálně
+        $wordPaths = $this->storeWordDoc($formData, $folderPathPatient, $rocnik);
 
         // 4. Odeslání na drive a uložení lokálně
         $pdfPaths = $this->storePdfsToDrive($wordPaths, $folderPathPatient);
@@ -105,7 +102,7 @@ class FormController extends Controller
         return $rocnik;
     }
 
-    public function generateWordDocument($folderPathPatient, $wordDocumentName, $templatePath, $formData, $rok, $termin, $cena)
+    public function generateWordDocument($folderPathPatient, $wordDocumentName, $templatePath, $formData, $rocnik)
     {
         $outputPath = "{$folderPathPatient}/{$wordDocumentName}.docx";
 
@@ -124,17 +121,17 @@ class FormController extends Controller
         $templateProcessor->setValue('DITE_OBEC', $formData->child_city);
         $templateProcessor->setValue('DITE_PSC', $formData->child_zip);
         $templateProcessor->setValue('DITE_POZNAMKA', $formData->child_note);
-        $templateProcessor->setValue('ROK', $rok);
-        $templateProcessor->setValue('TERMIN', $termin);
-        $templateProcessor->setValue('ZACATEK', explode(' - ',$termin)[0]);
-        $templateProcessor->setValue('CENA', $cena);
+        $templateProcessor->setValue('ROK', $rocnik->rok);
+        $templateProcessor->setValue('TERMIN', $rocnik->termin);
+        $templateProcessor->setValue('ZACATEK', explode(' - ',$rocnik->termin)[0]);
+        $templateProcessor->setValue('CENA', $rocnik->cena);
 
         $templateProcessor->saveAs($outputPath);
 
         return $outputPath;
     }
 
-    private function storeWordDoc($formData, $folderPathPatient, $rok, $termin, $cena) {
+    private function storeWordDoc($formData, $folderPathPatient, $rocnik) {
         $dirTemplates = resource_path('templates');
 
         // Get all DOCX files from the dirTemplates
@@ -147,10 +144,10 @@ class FormController extends Controller
         // Process each template
         foreach ($templates as $template) {
             $templateName = basename($template, '.docx');
-            $wordDocumentName = "K{$rok}_{$templateName}_{$formData->child_first_name}_{$formData->child_last_name}";
+            $wordDocumentName = "K{$rocnik->rok}_{$templateName}_{$formData->child_first_name}_{$formData->child_last_name}";
 
             // Generate Word document
-            $wordPaths[] = $this->generateWordDocument($folderPathPatient, $wordDocumentName,$template, $formData, $rok, $termin, $cena);
+            $wordPaths[] = $this->generateWordDocument($folderPathPatient, $wordDocumentName,$template, $formData, $rocnik);
         }
         return $wordPaths;
     }
