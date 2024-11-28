@@ -39,7 +39,7 @@ class FormController extends Controller
 
         // 4. Odeslání na drive a uložení lokálně
         $pdfPaths = $this->storePdfsToDrive($wordPaths, $folderPathPatient);
-        
+
         // 5. Email
         Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
 
@@ -222,8 +222,7 @@ class FormController extends Controller
             file_put_contents($destinationPath, $response->getBody());
             $pdfPaths[] = $destinationPath;
             $index++;
-
-            return $pdfPaths;
         }
+        return $pdfPaths;
     }
 }
