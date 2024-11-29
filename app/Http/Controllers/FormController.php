@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Models\FormModel;
 use App\Models\RocnikyModel;
 use Illuminate\Support\Carbon;
@@ -13,6 +14,8 @@ use Google\Service\Drive;
 use Google\Service\Drive\DriveFile;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\FormSubmittedMail;
+use App\Jobs\ProcessFormSubmission;
+
 
 class FormController extends Controller
 {
@@ -34,14 +37,11 @@ class FormController extends Controller
         
         $folderPathPatient = storage_path("app/public/{$rocnik->rok}/{$folderNamePatient}"); // Full path to the folder
 
-        // 3. Word vyplnění a uložení lokálně
+        // 4. Word vyplnění a uložení lokálně
         $wordPaths = $this->storeWordDoc($formData, $folderPathPatient, $rocnik);
 
-        // 4. Odeslání na drive a uložení lokálně
-        $pdfPaths = $this->storePdfsToDrive($wordPaths, $folderPathPatient);
-
-        // 5. Email
-        Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
+        // 5 Odeslání na drive, uložení lokálně a zaslání emailu
+        ProcessFormSubmission::dispatch($formData, $wordPaths, $folderPathPatient, $rocnik);
 
         // 6. Návrat na stránku
         $message_valid = 'Formulář byl úspěšně odeslán.';
@@ -198,6 +198,7 @@ class FormController extends Controller
             
             $wordDocumentBaseName = basename($wordpath,'.docx');
 
+            // Step 1: Upload Word document to Google Drive and convert it to Google Docs
             $fileMetaData = new DriveFile([
                 'name' => $wordDocumentBaseName,
                 'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')],
@@ -213,16 +214,19 @@ class FormController extends Controller
             ]);
     
             $fileId = $uploadedFile->getId();
+
+            // Step 2: Export the file as a PDF
             $response = $driveService->files->export($fileId, 'application/pdf', [
                 'alt' => 'media',
             ]);
     
-            // Save the PDF to the desired location
+            // Step 3: Save the PDF file locally
             $destinationPath = "{$folderPathPatient}/$wordDocumentBaseName.pdf";
             file_put_contents($destinationPath, $response->getBody());
             $pdfPaths[] = $destinationPath;
             $index++;
         }
+
         return $pdfPaths;
     }
 }
