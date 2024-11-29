@@ -4,7 +4,6 @@ function toggleTextInput() {
 
     if (radio.checked) {
         pole_jine.disabled = false;
-        console.log("Ahoj")
     } else {
         pole_jine.disabled = true;
     }

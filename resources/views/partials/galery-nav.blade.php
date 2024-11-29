@@ -27,5 +27,8 @@
     </div>
     <div class="nav-gallery-control">
         <i class="fa fa-angle-down gallery-arrow arrow-nav"></i>
+        @if(request()->is('galerie/*'))
+            <a href="{{ url()->previous() }}"><i class="fa fa-angle-left gallery-arrow arrow-back"></i></a>
+        @endif
     </div>
 </div>

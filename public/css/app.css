@@ -922,14 +922,14 @@ li:has(> a.non-active-album) {
   border: 1px gray solid;
   background-color: var(--nav-gallery-bar-sub-sub);
   border-radius: 10px;
-  width: 40%;
+  width: 500px;
   margin: 0 auto;
   padding: 25px;
   margin-bottom: 15px;
 }
 
 .prihlaska-instrukce {
-  width: 50%;
+  width: 500px;
   display: block;
   margin: 0 auto;
   text-align: center;
@@ -1283,10 +1283,12 @@ input:checked ~ .obdelnik {
     background-color: var(--nav-gallery-bar-sub-sub);
   }
 
+  /* Skryje neaktivní galerie */
   .nav-gallery ul .nonact {
     opacity: 0;
   }
 
+  /* Přesune galerii doleva na bar */
   .active-gallery{
     position: absolute;
     left: 0;
@@ -1295,6 +1297,7 @@ input:checked ~ .obdelnik {
     translate: 0 -25px;
   }
 
+  /* Překryje bar názvem alba */
   .active-album {
     position: absolute;
     width: 100%;
@@ -1304,16 +1307,31 @@ input:checked ~ .obdelnik {
     translate: 0 -25px;
   }
 
+  /* Šipka vpravo */
   .nav-gallery-control {
     display: block;
   }
 
+  /* Ukáže naktivní galerie */
   .active-nav-gallery ul .nonact {
     padding: 10px;
     opacity: 1;
   }
+  
+  .active-nav-gallery ul .nonact {
+    padding: 10px;
+    opacity: 1;
+    /* border: 2px saddlebrown solid; */
+  }
+
+  /* Hide non-active albums */
+  .nav-gallery ul li:has(a.non-active-album) {
+    display: none;
+  }
+
 }
 
+/* Mobil */
 @media only screen and (max-width: 600px) {
   .container, .contact{
     padding: 25px 25px;
@@ -1433,4 +1451,5 @@ input:checked ~ .obdelnik {
   .info-photo-gallery {
     flex-direction: column;
   }
+
 }
