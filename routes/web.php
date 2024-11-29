@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\DbViewController;
 
 
 Route::get('/', function () {
@@ -40,6 +41,13 @@ Route::get('prihlaska', function() {
 Route::get('settings', function() {
     return view('settings');
 })->name('settings');
+
+// Route::get('prihlasky-private', function() {
+//     return view('prihlasky-private');
+// })->name('prihlasky-private');
+
+Route::get('prihlasky-private', [DbViewController::class, 'showPrihlaskyDb'])
+    ->name('prihlasky-private');
 
 Route::get('galerie/{event}/{year}', [GalleryController::class, 'show'])
     ->name('galerie');
