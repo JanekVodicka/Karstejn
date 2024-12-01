@@ -43,6 +43,12 @@ class FormController extends Controller
         // 5 Odeslání na drive, uložení lokálně a zaslání emailu
         ProcessFormSubmission::dispatch($formData, $wordPaths, $folderPathPatient, $rocnik);
 
+        // 5.1 Odeslání na drive a uložení lokálně
+        // $pdfPaths = $this->storePdfsToDrive($wordPaths, $folderPathPatient);
+
+        // 5.2 Email
+        // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
+
         // 6. Návrat na stránku
         $message_valid = 'Formulář byl úspěšně odeslán.';
         return redirect()->back()->with('success', $message_valid);
