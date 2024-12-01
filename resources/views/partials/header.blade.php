@@ -28,5 +28,9 @@
             <a href="https://www.instagram.com/lt.karstejn/?hl=cs" target=“_blank“><i class="fa fa-instagram fa-lg icon-in"></i></a>
             <a href="https://www.youtube.com/@letnitaborkarstejn2920" target=“_blank“><i class="fa fa-youtube-play fa-lg icon-yt"></i></a>
         </div>
+
+        <div>
+            <a href="{{ route('prihlasky-private') }}"><i class="fa fa-user icon-user" aria-hidden="true"></i></a>
+        </div>
     </nav>
 </header>
