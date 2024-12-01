@@ -6,19 +6,19 @@
         <table>
             <thead>
                 <tr>
-                    <td>ID</td>
-                    <td>Jméno rodiče</td>
-                    <td>VS</td>
-                    <td>Email</td>
-                    <td>Číslo</td>
-                    <td>Jméno dítěte</td>
-                    <td>Místo nástupu</td>
-                    <td>Plavec?</td>
-                    <td>Velikost trika?</td>
-                    <td>Souhlas fotky</td>
-                    <td>Faktura?</td>
-                    <td>Poznámka rodič</td>
-                    <td>Poznámka dítě</td>
+                    <th>ID</th>
+                    <th>VS</th>
+                    <th>Jméno rodiče</th>
+                    <th>Email</th>
+                    <th>Číslo</th>
+                    <th>Jméno dítěte</th>
+                    <th>Místo nástupu</th>
+                    <th>Plavec?</th>
+                    <th>Velikost trika?</th>
+                    <th>Souhlas fotky</th>
+                    <th>Faktura?</th>
+                    <th>Poznámka rodič</th>
+                    <th>Poznámka dítě</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@
                 <td>{{ $prihlaska['plavec'] }}</td>
                 <td>{{ $prihlaska['velikost_trika'] }}</td>
                 <td>{{ $prihlaska['photos_agreement'] }}</td>
-                <td>{{ $prihlaska['faktura'] }}</td>
+                <td>{{ $prihlaska['facture'] }}</td>
                 <td>{{ $prihlaska['parent_note'] }}</td>
                 <td>{{ $prihlaska['child_note'] }}</td>
             </tr>  

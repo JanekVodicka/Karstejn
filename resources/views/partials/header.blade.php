@@ -29,7 +29,7 @@
             <a href="https://www.youtube.com/@letnitaborkarstejn2920" target=“_blank“><i class="fa fa-youtube-play fa-lg icon-yt"></i></a>
         </div>
 
-        <div>
+        <div class="user">
             <a href="{{ route('prihlasky-private') }}"><i class="fa fa-user icon-user" aria-hidden="true"></i></a>
         </div>
     </nav>
