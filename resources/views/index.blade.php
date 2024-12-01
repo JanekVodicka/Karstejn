@@ -3,7 +3,7 @@
 @section('content')
     <div class="image-main">
         <video autoplay muted loop id="myVideo">
-            <source src="videos/video_uvodni.mp4" type="video/mp4">
+            <source src="{{ asset(videos/video_uvodni.mp4) }}" type="video/mp4">
         </video>
         <div class="image-main-content">
             <div class="image-main-header">
@@ -23,7 +23,7 @@
                 <div class="section-grid">
                     <div class="section-grid-item">
                         <h3>Naše kořeny</h2>
-                            <img id="parez" src="images/drawing_parez.jpg" alt="">
+                            <img id="parez" src="{{ asset(images/drawing_parez.jpg) }}" alt="">
                             <p>Letní tábor Karštejn má více než padesátiletou tradici, která se promítá do každého léta,
                                 které společně trávíme.</p><br>
                             <p>Stanový tábor se nachází v chráněné krajinné oblasti Třeboňsko, poblíž Kardašovy Řečice, mezi
@@ -35,17 +35,17 @@
                     </div>
                     <div class="section-grid-item">
                         <div class="section-grid-img">
-                            <img src="images/ohen_deti.jpg" alt="ohen_deti">
+                            <img src="{{ asset(images/ohen_deti.jpg) }}" alt="ohen_deti">
                         </div>
                     </div>
                     <div class="section-grid-item">
                         <div class="section-grid-img">
-                            <img src="images/vize/P1020184.jpg" alt="ohen_deti">
+                            <img src="{{ asset(images/vize/P1020184.jpg) }}" alt="ohen_deti">
                         </div>
                     </div>
                     <div class="section-grid-item">
                         <h3>Průvodci divočinou</h2>
-                            <img id="totem" src="images/drawing_totem.jpg" alt="">
+                            <img id="totem" src="{{ asset(images/drawing_totem.jpg) }}" alt="">
                             <p>Náš karštejnský tým se skládá z nadšených vedoucích a instruktorů, kteří pečlivě plánují a
                                 připravují každou část tábora, a to nejen během léta, ale po celý rok.</p><br>
                             <p>še dva běhy spolupracují, aby udržovaly tábor v kondici, pořádají brigády a setkání, která
@@ -55,7 +55,7 @@
                     </div>
                     <div class="section-grid-item">
                         <h3>Kam směřujeme</h2>
-                            <img id="esus" src="images/drawing_esus.jpg" alt="">
+                            <img id="esus" src="{{ asset(images/drawing_esus.jpg) }}" alt="">
                             <p>Naším cílem je rozvíjet u dětí hlubší vztah k přírodě, vést je k odpovědnému chování, jako je
                                 předcházení vzniku odpadu a jeho třídění, a učit je, jak s respektem přistupovat k prostředí
                                 kolem nás.</p><br>
@@ -66,17 +66,17 @@
                     </div>
                     <div class="section-grid-item">
                         <div class="section-grid-img">
-                            <img src="images/kzw karstejn trika post/triko_forma.JPG" alt="totem">
+                            <img src="{{ asset(images/kzw_karstejn_trika_post/triko_forma.JPG) }}" alt="totem">
                         </div>
                     </div>
                     <div class="section-grid-item">
                         <div class="section-grid-img">
-                            <img src="images/hry/P1010332.jpg" alt="ohen_deti">
+                            <img src="{{ asset(images/hry/P1010332.jpg) }}" alt="ohen_deti">
                         </div>
                     </div>
                     <div class="section-grid-item">
                         <h3>Aktivity</h2>
-                            <img id="gong" src="images/drawing_gong.jpg" alt="">
+                            <img id="gong" src="{{ asset(images/drawing_gong.jpg) }}" alt="">
                             <p>Karštejnské léto je nabité pestrým programem, který zajišťuje, že si každý najde něco, co ho
                                 baví. Děti se mohou těšit na celotáborovou hru, která podporuje týmovou spolupráci a
                                 kreativitu.</p><br>
@@ -101,10 +101,10 @@
     <div class="container">
         <section>
             <h2>Náš tým</h2>
-            <img src="images/skupinovka + historická/_DSC0522.JPG" style="width: 100%; border-radius: 10px;">
+            <img src="{{ asset('images/skupinovka_historická/_DSC0522.JPG') }}" style="width: 100%; border-radius: 10px;">
             <div class="drawing_teepee_totem">
-                <img id="teepee" src="images/drawing_teepee.jpg" alt="">
-                <img id="totem_2" src="images/drawing_totem.jpg" alt="">
+                <img id="teepee" src="{{ asset('images/drawing_teepee.jpg') }}" alt="">
+                <img id="totem_2" src="{{ asset('images/drawing_totem.jpg') }}" alt="">
             </div>
         </section>
     </div>

@@ -9,7 +9,7 @@
                     <div class="aktuality-slider">
                         <section>
                             <div class="aktualita">
-                                <img id="plakat_2025" src="images/plakaty/plakat_2025.jpg" alt="">
+                                <img id="plakat_2025" src="{{ asset(images/plakaty/plakat_2025.jpg) }}" alt="">
                                 <p>Neleníme a pylně chystáme následující ročník. Více info naleznete <a href="info.html#Karstejn-aktualni">zde</a>.</p>
                             </div>
                         </section>
@@ -56,14 +56,14 @@
                         <h2>I. běh</h2>
                         <div class="datum-behu">29. 6. - 12. 7. 2025</div>
                         <h3>Poslední lov</h3>
-                        <img src="images/plakaty/plakat_2025.jpg">
+                        <img src="{{ asset(images/plakaty/plakat_2025.jpg) }}">
                         <a href="#">Přihlašování nezahájeno</a>
                     </div>
                     <div class="behy-grid-item">
                         <h2>II. běh</h2>
                         <div class="datum-behu">12. 7. - 25. 7. 2025</div>
                         <h3>???</h3>
-                        <img src="images/plakaty/plakat_2025_II_beh.jpg.avif">
+                        <img src="{{ asset(images/plakaty/plakat_2025_II_beh.jpg.avif) }}">
                         <a href="#">Přihlašování nezahájeno</a> 
                     </div>
                 </div>
@@ -85,16 +85,16 @@
                 <div class="info-photo-gallery">
                     <div class="column">
                         <div class="photo">
-                            <img class="photo-info" src="images/zázemí/_DSC0219.JPG" alt="">
+                            <img class="photo-info" src="{{ asset(images/zázemí/_DSC0219.JPG) }}" alt="">
                         </div>
                     </div>
 
                     <div class="column">
                         <div class="photo">
-                            <img class="photo-info" src="images/zázemí/DSC03788.JPG" alt="">
+                            <img class="photo-info" src="{{ asset(images/zázemí/DSC03788.JPG) }}" alt="">
                         </div>
                         <div class="photo">
-                            <img class="photo-info" src="images/zázemí/DSC03797.JPG" alt="">
+                            <img class="photo-info" src="{{ asset(images/zázemí/DSC03797.JPG) }}" alt="">
                         </div>
                     </div>
                 </div>
@@ -107,25 +107,25 @@
                 <div class="info-photo-gallery">
                     <div class="column">
                         <div class="photo">
-                            <img class="photo-info" src="images/hry/DSC03976.JPG" alt="">
+                            <img class="photo-info" src="{{ asset(images/hry/DSC03976.JPG) }}" alt="">
                         </div>
                         <div class="photo">
-                            <img class="photo-info" src="images/děti together/_DSC0381.JPG" alt="">
-                        </div>
-                    </div>
-
-                    <div class="column">
-                        <div class="photo">
-                            <img class="photo-info" src="images/děti together/DSC02253.JPG" alt="">
-                        </div>
-                        <div class="photo">
-                            <img class="photo-info" src="images/děti together/DSC04027.JPG" alt="">
+                            <img class="photo-info" src="{{ asset(images/děti_together/_DSC0381.JPG) }}" alt="">
                         </div>
                     </div>
 
                     <div class="column">
                         <div class="photo">
-                            <img class="photo-info" src="images/děti together/DSC04283.JPG" alt="">
+                            <img class="photo-info" src="{{ asset(images/děti_together/DSC02253.JPG) }}" alt="">
+                        </div>
+                        <div class="photo">
+                            <img class="photo-info" src="{{ asset(images/děti_together/DSC04027.JPG) }}" alt="">
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="photo">
+                            <img class="photo-info" src="{{ asset(images/děti_together/DSC04283.JPG) }}" alt="">
                         </div>
                     </div>
                 </div>
