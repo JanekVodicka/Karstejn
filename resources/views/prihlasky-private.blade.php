@@ -2,7 +2,7 @@
 @section('title', 'Přihlášky - databáze')
 @section('content')
     <div class="container">
-        <h2>Přihlášky</h2>
+        @include('partials.settings-nav', ['active' => 'prihlasky-private', 'activealbum' => '', 'year' => '', 'albumname' => ''])
         <table>
             <thead>
                 <tr>

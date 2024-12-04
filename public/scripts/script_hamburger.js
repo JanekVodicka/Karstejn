@@ -6,8 +6,8 @@ hamburger.onclick = function() {
 
 arrow_nav = document.querySelector(".arrow-nav");
 arrow_nav.onclick = function() {
-    navBarGallery = document.querySelector(".nav-gallery");
-    navBarGallery.classList.toggle("active-nav-gallery");
+    navBarGallery = document.querySelector(".nav-items");
+    navBarGallery.classList.toggle("active-nav-items");
 }
 nav-btns
 
