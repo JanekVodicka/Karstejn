@@ -30,7 +30,7 @@
         </div>
 
         <div class="user">
-            <a href="{{ route('prihlasky-private') }}"><i class="fa fa-user icon-user" aria-hidden="true"></i></a>
+            <a href="{{ route('settings') }}"><i class="fa fa-user icon-user {{ auth()->check() ? 'logged-in' : ''}}" aria-hidden="true"></i></a>
         </div>
     </nav>
 </header>
