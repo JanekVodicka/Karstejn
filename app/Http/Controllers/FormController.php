@@ -25,7 +25,7 @@ class FormController extends Controller
         $formData = $this->storeToDb($request);
 
         // 2. Hodnoty z tabulky databáze Rocniky
-        $rocnik = $this->getRocnikFromDb(Carbon::now()->format('Y'));
+        $rocnik = $this->getRocnikFromDb();
 
         // 3. Složky
         $folderNamePatient = "{$formData->child_first_name}_{$formData->child_last_name}";
@@ -100,10 +100,10 @@ class FormController extends Controller
         return $formdata;
     }
 
-    public function getRocnikFromDb($value)
+    public function getRocnikFromDb()
     {
         // Retrieve the row where a specific column matches the given value
-        $rocnik = RocnikyModel::where('rok', $value)->first();
+        $rocnik = RocnikyModel::orderBy('ID', 'desc')->first();
         
         return $rocnik;
     }

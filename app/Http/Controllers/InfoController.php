@@ -10,7 +10,7 @@ class InfoController extends Controller
     public function showToInfo()
     {
         $data_rocniky = RocnikyModel::select('rok', 'cena', 'tema_1beh', 'termin_1beh', 'tema_2beh', 'termin_2beh')
-            ->orderBy('id', 'desc') // Assuming 'id' is your primary key
+            ->orderBy('id', 'desc')
             ->first(); // Get only the last row
         
         $data_rocniky_array = $data_rocniky ? $data_rocniky->toArray() : [];
