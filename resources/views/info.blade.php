@@ -43,26 +43,26 @@
 
         <section>
             <div id="Karstejn-aktualni">
-                <h1>Karštejn 2025</h2>
+                <h1>Karštejn {{ $data_rocniky['rok'] }}</h2>
                 <div class="karstejn-behy-info">
                     <p>Jako každý rok i letos se uskuteční 2 běhy našeho letního tábora.</p>
                     <p>Pro děti od <strong>7</strong> do <strong>15</strong> let</p>
                     <p>Na <strong>14 dní</strong> (termín viz běhy níže)</p>
-                    <p><strong>Cena: </strong> 5100 Kč (cena zahrnuje ubytování, stravu, dopravu a pestrý program)</p>
+                    <p><strong>Cena: </strong> {{ $data_rocniky['cena'] }} Kč (cena zahrnuje ubytování, stravu, dopravu a pestrý program)</p>
                 </div>
 
                 <div class="behy-grid">
                     <div class="behy-grid-item">
                         <h2>I. běh</h2>
-                        <div class="datum-behu">29. 6. - 12. 7. 2025</div>
-                        <h3>Poslední lov</h3>
+                        <div class="datum-behu">{{ $data_rocniky['termin_1beh'] }}</div>
+                        <h3>{{ $data_rocniky['tema_1beh'] }}</h3>
                         <img src="{{ asset('images/plakaty/plakat_2025.jpg') }}">
                         <a href="#">Přihlašování nezahájeno</a>
                     </div>
                     <div class="behy-grid-item">
                         <h2>II. běh</h2>
-                        <div class="datum-behu">12. 7. - 25. 7. 2025</div>
-                        <h3>???</h3>
+                        <div class="datum-behu">{{ $data_rocniky['termin_2beh'] }}</div>
+                        <h3>{{ $data_rocniky['tema_2beh'] }}</h3>
                         <img src="{{ asset('images/plakaty/plakat_2025_II_beh.jpg.avif') }}">
                         <a href="#">Přihlašování nezahájeno</a> 
                     </div>
