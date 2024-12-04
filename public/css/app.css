@@ -6,11 +6,12 @@
   --main-color: rgba(0, 0, 0, 0.9);
   --submain-color: whitesmoke;
   --select: rgba(0, 140, 0, 0.889);
-  --nav-gallery-bar:rgb(43, 127, 91);
-  --nav-gallery-bar-sub:#88a78e;
-  --nav-gallery-bar-sub-sub:#98ba9f;
+  --nav-bar:rgb(43, 127, 91);
+  --nav-bar-sub:#88a78e;
+  --nav-bar-sub-sub:#98ba9f;
   --background:rgb(255, 255, 255);
   --header-height: 80px;
+  --logged-in: #95d3e3;
 }
 
 @font-face {
@@ -185,15 +186,21 @@ nav ul li a:hover, .active {
   margin-right: 20px;
   /* border: 2px solid yellow; */
   width: 50px;
+  position: relative;
 }
 
 .user .icon-user{
-  color: white;
+  color: var(--submain-color);
   font-size: 25px;
 }
 
 .user .icon-user:hover{
-  color: lightblue;
+  color: var(--logged-in);
+  font-size: 35px;
+}
+
+.user .logged-in{
+  color: var(--logged-in);
   font-size: 35px;
 }
 
@@ -695,7 +702,7 @@ nav ul li a:hover, .active {
 /* ============================================================ GALLERY ============================================================ */
 
 /* ==================== Navigace ==================== */
-.nav-gallery-bar {
+.nav-bar {
   position: relative;
   z-index: 50;
   display: flex;
@@ -703,30 +710,30 @@ nav ul li a:hover, .active {
   width: 100%;
   height: 50px;
   border-radius: 5px;
-  background-color: var(--nav-gallery-bar-sub);
+  background-color: var(--nav-bar-sub);
   font-family: FontGallery;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   /* border: 2px solid blue; */
 }
 
-.nav-gallery-bar i {
+.nav-bar i {
   font-size: 30px;
 }
 
-.nav-gallery {
+.nav-items {
   display: flex;
   align-items: center;
   justify-content: center;
   /* border: 2px solid goldenrod; */
 }
 
-.nav-gallery ul li {
+.nav-items ul li {
   display: inline-flex;     /* V řadě */
   text-align: center;
   list-style-type: none;    /* Žádné tečky - žádný styl */
 }
 
-.nav-gallery ul li a {
+.nav-items ul li a {
   color: black;
   text-decoration: none;  /* Žádné podtržení */
   display: inline-block;
@@ -734,10 +741,42 @@ nav ul li a:hover, .active {
   font-size: 20px;
 }
 
-.active-gallery, .active-album {
+.log-out {
+  position: absolute;
+  right: 15px;
+  /* border: 2px solid black; */
+}
+
+.prihlaseni-status {
+  width: 100%;
+  text-align: center;
+}
+
+.error-message {
+  text-align: center;
+  color: #CD201F;
+  padding-bottom: 15px;
+}
+
+.log-out button {
+  height: 30px;
+  font-weight: bold;
+  background-color: var(--nav-bar);
+  border: none;
+  color: black;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  /* box-shadow: 0 0 2px rgba(0, 0, 0, 0.85); */
+  font-family: FontGallery;
+  font-weight: 100;
+  font-size: 18px;
+}
+
+.active-item, .active-album {
   font-weight: bold;
   padding: 15px;
-  background-color: var(--nav-gallery-bar);
+  background-color: var(--nav-bar);
   border-radius: 5px;
 }
 
@@ -750,22 +789,22 @@ li:has(> a.non-active-album) {
   display: none;
 }
 
-.nav-gallery ul li a:hover {
+.nav-items ul li a:hover {
   font-weight: bold;
 }
 
-.nav-gallery-control {
+.nav-items-control {
   display: none;
   height: 100%;
   width: 100%;
   /* border: 2px solid gold; */
 }
 
-.nav-gallery-control a {
+.nav-items-control a {
   color: black;
 }
 
-.gallery-arrow {
+.nav-arrow {
   position: absolute;
   top: 50%;
   cursor: pointer;
@@ -933,7 +972,7 @@ li:has(> a.non-active-album) {
 
 .formular {
   border: 1px gray solid;
-  background-color: var(--nav-gallery-bar-sub-sub);
+  background-color: var(--nav-bar-sub-sub);
   border-radius: 10px;
   width: 500px;
   margin: 0 auto;
@@ -1035,7 +1074,7 @@ li:has(> a.non-active-album) {
 }
 
 input[type=submit] {
-  background-color: var(--nav-gallery-bar);
+  background-color: var(--nav-bar);
   border: 1px solid black;
   color: white;
   padding: 12px 24px;
@@ -1150,7 +1189,7 @@ table {
 }
 
 table thead tr {
-  background-color: var(--nav-gallery-bar);
+  background-color: var(--nav-bar);
   text-align: left;
 }
 
@@ -1163,9 +1202,8 @@ tbody tr {
 }
 
 tbody tr:nth-of-type(even) {
-  background-color: var(--nav-gallery-bar-sub-sub);
+  background-color: var(--nav-bar-sub-sub);
 }
-
 
 /* label {
   width: 62px;
@@ -1314,7 +1352,7 @@ input:checked ~ .obdelnik {
 }
 
 @media only screen and (max-width: 1000px) {
-  .nav-gallery {
+  .nav-items {
     height: 0%;
     width: 100%;
     position: absolute;
@@ -1327,21 +1365,21 @@ input:checked ~ .obdelnik {
     /* border: 2px solid red; */
   }
 
-  .nav-gallery ul li {
+  .nav-items ul li {
     padding-top: 0px;
     width: 100%;
     margin: auto;
     display: block;
-    background-color: var(--nav-gallery-bar-sub-sub);
+    background-color: var(--nav-bar-sub-sub);
   }
 
   /* Skryje neaktivní galerie */
-  .nav-gallery ul .nonact {
+  .nav-items ul .nonact {
     opacity: 0;
   }
 
   /* Přesune galerii doleva na bar */
-  .active-gallery{
+  .active-item{
     position: absolute;
     left: 0;
     top: 50%;
@@ -1359,25 +1397,30 @@ input:checked ~ .obdelnik {
     translate: 0 -25px;
   }
 
+  .log-out {
+    top: -40px;
+    right: 4%;
+  }
+
   /* Šipka vpravo */
-  .nav-gallery-control {
+  .nav-items-control {
     display: block;
   }
 
   /* Ukáže naktivní galerie */
-  .active-nav-gallery ul .nonact {
+  .active-nav-items ul .nonact {
     padding: 10px;
     opacity: 1;
   }
   
-  .active-nav-gallery ul .nonact {
+  .active-nav-items ul .nonact {
     padding: 10px;
     opacity: 1;
     /* border: 2px saddlebrown solid; */
   }
 
   /* Hide non-active albums */
-  .nav-gallery ul li:has(a.non-active-album) {
+  .nav-items ul li:has(a.non-active-album) {
     display: none;
   }
 
