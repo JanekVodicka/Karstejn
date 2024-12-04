@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('rocniky', function (Blueprint $table) {
             $table->id();
-            $table->string('rok');
-            $table->string('termin');
-            $table->string('cena');
-            $table->string('tema');
+            $table->string('rok')->unique();
+            $table->string('cena')->nullable();
+            $table->string('termin_1beh')->nullable();
+            $table->string('tema_1beh')->nullable();
+            $table->string('termin_2beh')->nullable();
+            $table->string('tema_2beh')->nullable();
             $table->timestamps();
         });
     }
