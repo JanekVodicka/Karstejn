@@ -22,7 +22,7 @@ class VedouciMiddleware
         if (Auth::check() && Auth::user()->role === 'vedouci') {
             // Allow access to settings
             if ($request->is('prihlasky-private')) {
-                return redirect('settings')->with('error', 'Přístup odmítnut. Pouze pro admin uživatele');
+                return redirect('settings')->with('error-login-role', 'Přístup odmítnut. Pouze pro admin uživatele');
             }
 
             // Allow access to all other views
@@ -30,6 +30,6 @@ class VedouciMiddleware
         }
         
         // Return to login if not logged in or not a 'vedouci' user
-        return redirect('login')->with('error', 'Přístu odmítnut. Pouze pro admin uživatele');
+        return redirect('login')->with('error-login-role', 'Přístup odmítnut. Pouze pro admin uživatele');
     }
 }

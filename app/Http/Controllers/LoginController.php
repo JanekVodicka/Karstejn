@@ -18,6 +18,6 @@ class LoginController extends Controller
             return redirect()->intended('settings');
         }
     
-        return redirect('login')->withErrors(['login' => 'Nesprávné údaje']);
+        return redirect('login')->withErrors(['error-login-credentials' => 'Nesprávné údaje']);
     }
 }

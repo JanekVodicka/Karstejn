@@ -24,6 +24,6 @@ class AdminMiddleware
         }
         
         // Return to login if not logged in or not an 'admin' user
-        return redirect('login')->with('error', 'Přístup odmítnut. Pouze pro admin uživatele');
+        return redirect('login')->with('error-login-role', 'Přístup odmítnut. Pouze pro admin uživatele');
     }
 }
