@@ -3,21 +3,20 @@
 @section('content')
     <div class="container">
         <section>
-            <h2>Aktuality</h2>
-            <div class="aktuality">
+            <div id="aktuality">
+                <h2>Aktuality</h2>
                 <div class="aktuality-carusel">
                     <div class="aktuality-slider">
                         <section>
                             <div class="aktualita">
-                                <img id="plakat_2025" src="{{ asset('images/plakaty/plakat_2025.jpg') }}" alt="">
-                                <p>Neleníme a pylně chystáme následující ročník. Více info naleznete <a href="info.html#Karstejn-aktualni">zde</a>.</p>
+                                <img id="plakat_2025" src="{{ asset('images/plakaty/plakat_aktualni.jpg') }}" alt="">
+                                <p>Neleníme a pylně chystáme následující ročník. Více info naleznete <a href="{{ route('info') }}#Karstejn-aktualni">zde</a>.</p>
                             </div>
                         </section>
                         <section>
                             <div class="aktualita">
                                 <p>Byly přidány fotky na facebook</p>
                                 <a href="https://www.facebook.com/karstejn" target="_blank"><i class="fa fa-facebook-f icon-fb" style="font-size:36px; padding:10px"></i></a>
-                                
                             </div>
                         </section>
                         <section>
@@ -38,17 +37,24 @@
                     </div>
                 </div>
             </div>
-
         </section>
+    </div>
 
         <section>
+            <div class="image-div" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.0)), url('{{ asset('images/oheň_freetime/DSC05635.JPG') }}'); opacity: 0.9;">
+                <h1>Chcete k nám?</h1>
+            </div>
+        </section>
+
+    <div class="container">
+        <section>
             <div id="Karstejn-aktualni">
-                <h1>Karštejn {{ $data_rocniky['rok'] }}</h2>
+                <h1>Karštejn {{ $data_rocniky['rok'] }}</h1>
                 <div class="karstejn-behy-info">
                     <p>Jako každý rok i letos se uskuteční 2 běhy našeho letního tábora.</p>
                     <p>Pro děti od <strong>7</strong> do <strong>15</strong> let</p>
-                    <p>Na <strong>14 dní</strong> (termín viz běhy níže)</p>
-                    <p><strong>Cena: </strong> {{ $data_rocniky['cena'] }} Kč (cena zahrnuje ubytování, stravu, dopravu a pestrý program)</p>
+                    <p>Na <strong>14 dní</strong> (termín viz běhy níže)</p><br>
+                    <p><strong>Cena: </strong> {{ $data_rocniky['cena'] }} Kč <br>(cena zahrnuje ubytování, stravu, dopravu a pestrý program)</p>
                 </div>
 
                 <div class="behy-grid">
@@ -56,31 +62,30 @@
                         <h2>I. běh</h2>
                         <div class="datum-behu">{{ $data_rocniky['termin_1beh'] }}</div>
                         <h3>{{ $data_rocniky['tema_1beh'] }}</h3>
-                        <img src="{{ asset('images/plakaty/plakat_2025.jpg') }}">
-                        <a href="#">Přihlašování nezahájeno</a>
+                        <a href="{{ asset('images/plakaty/plakat_aktualni.jpg') }}"><img src="{{ asset('images/plakaty/plakat_aktualni.jpg') }}"></a>
+                        <a class="btn-prihlaska {{ $spusteni_prihlasek == 'ano' ? 'prihlasky-zahajeny' : 'prihlasky-nezahajeny'}}" href="{{ route('prihlaska') }}">{{ $spusteni_prihlasek == 'ano' ? 'Přihlašování zahájeno' : 'Přihlašování ukončeno'}}</a>
                     </div>
                     <div class="behy-grid-item">
                         <h2>II. běh</h2>
                         <div class="datum-behu">{{ $data_rocniky['termin_2beh'] }}</div>
                         <h3>{{ $data_rocniky['tema_2beh'] }}</h3>
-                        <img src="{{ asset('images/plakaty/plakat_2025_II_beh.jpg.avif') }}">
-                        <a href="#">Přihlašování nezahájeno</a> 
+                        <a href="{{ asset('images/plakaty/plakat_aktualni_II_beh.jpg') }}"><img src="{{ asset('images/plakaty/plakat_aktualni_II_beh.jpg') }}"></a>
+                        <a class="btn-prihlaska {{ $aktivace_prihlasek_2beh == 'ano' ? 'prihlasky-zahajeny' : 'prihlasky-nezahajeny'}}" href="https://www.karstejn.org/#prihlaska" target="_blank">{{ $aktivace_prihlasek_2beh == 'ano' ? 'Přihlašování zahájeno' : 'Přihlašování ukončeno'}}</a> 
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-
     <section>
-        <div class="image-info-div">
+        <div class="image-div" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.0)), url('{{ asset('images/pozadi/P0000178.JPG') }}'); opacity: 1;">
             <h1>Mohlo by Vás zajímat?</h1>
         </div>
     </section>
 
     <div class="container">
         <section>
-            <div class="zazemi-tabora">
+            <div id="zazemi-tabora">
                 <h2>Zázemí tábora</h2>
                 <div class="info-photo-gallery">
                     <div class="column">
@@ -102,7 +107,7 @@
         </section>
 
         <section>
-            <div class="aktivity">
+            <div id="aktivity">
                 <h2>Aktivity</h2>
                 <div class="info-photo-gallery">
                     <div class="column">
@@ -133,32 +138,46 @@
         </section>
 
         <section>
-            <div class="ke-stazeni">
+            <div id="ke-stazeni">
                 <h2>Ke stažení</h2>
                 <div class="section-download-grid">
                     <div class="section-download-grid-item">
-                        <p>Seznam věcí s sebou:</p>
+                        <p>Táborový řád:</p>
                     </div>
                     <div class="section-download-grid-item">
-                        <a href="documents/seznam.pdf" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
+                        <a href="{{ asset('documents/Taborovy_rad_zs_Karstejn.pdf') }}" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
                     </div>
-                    
+
                     <div class="section-download-grid-item">
-                        <p>Zpěvník:</p>
+                        <p>Všeobecné podmínky LT Karštejn:</p>
                     </div>
                     <div class="section-download-grid-item">
-                        <a href="documents/seznam.pdf" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
+                        <a href="{{ asset('documents/Všeobecné podmínky LT Karštejn.pdf') }}" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
                     </div>
-                    
+
                     <div class="section-download-grid-item">
-                        <p>Formuláře:</p>
+                        <p>Storno podmínky:</p>
+                    </div>
+                    <div class="section-download-grid-item">
+                        <a href="{{ asset('documents/Storno podmínky.pdf') }}" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
+                    </div>
+
+                    <div class="section-download-grid-item">
+                        <p>Podmínky o zpracování údajů:</p>
+                    </div>
+                    <div class="section-download-grid-item">
+                        <a href="{{ asset('documents/Ochrana osobních údajů 2024.pdf') }}" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
+                    </div>
+
+                    <div class="section-download-grid-item">
+                        <p>Přihláškové formuláře:</p>
                     </div>
                     <div class="section-download-grid-item">
                         <a href="documents/seznam.pdf" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
                     </div>
 
                     <div class="section-download-grid-item">
-                        <p>Táborový řád:</p>
+                        <p>Seznam věcí s sebou:</p>
                     </div>
                     <div class="section-download-grid-item">
                         <a href="documents/seznam.pdf" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
