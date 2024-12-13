@@ -2,24 +2,18 @@
 @section('title', 'Galerie-Akce')
 @section('content')
     <div class="container">
-        @include('partials.galery-nav', ['active' => 'akce', 'activealbum' => '', 'year' => '', 'albumname' => ''])
-        <div class="photo-gallery">
-            @php
-                $albums = [
-                    ['year' => '2007', 'title' => 'Víkendovka - ZÁCHRANÁŘI'],
-                    ['year' => '2006', 'title' => 'Víkendovka - SEZNAMOVACÍ'],
-                ];
-
-            @endphp
-
-            @foreach ($albums as $album)
-                <div class="album" style="background-image: url(images/akce/{{ $album['year'] }}.jpg);">
-                    <a href="{{ url("galerie/akce/{$album['year']}") }}">
-                        <div class="img-text">{{ $album['year'] }}</div>
-                        <div class="img-text-hidden">{{ $album['title'] }}</div>
-                    </a>
-                </div>
-            @endforeach
+        <div class="galerie">
+            @include('partials.galery-nav', ['active' => 'akce', 'activealbum' => '', 'year' => '', 'albumname' => ''])
+            <div class="photo-gallery">
+                @foreach ($albumsAkce as $album)
+                    <div class="album" style="background-image: url(images/akce/{{ $album['termin_akce'] }}.jpg);">
+                        <a href="{{ url("galerie/akce/{$album['termin_akce']}") }}">
+                            <div class="img-text">{{ $album['termin_akce'] }}</div>
+                            <div class="img-text-hidden">{{ $album['tema_akce'] }}</div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 @endsection

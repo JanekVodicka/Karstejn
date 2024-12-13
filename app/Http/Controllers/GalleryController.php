@@ -3,49 +3,77 @@
 namespace App\Http\Controllers;
 
 use App\Models\RocnikyModel;
+use App\Models\AkceModel;
 use Illuminate\Http\Request;
 
 class GalleryController extends Controller
 {
-    public function showToGalerie(string $event, string $year)
+    public function showToGalerie(string $event, string $date)
     {
-        $images = $this->getImagesForYear($event, $year);
-        $albums_rocniky = RocnikyModel::select('rok', 'tema_1beh')->get()->keyBy('rok')->toArray();
-
-        $albums_akce = [
-            '2007' => ['year' => '2007', 'title' => 'Víkendovka - ZÁCHRANÁŘI'],
-            '2006' => ['year' => '2006', 'title' => 'Víkendovka - SEZNAMOVACÍ'],
-        ];
+        $images = $this->getImagesForYear($event, $date);
+        
+        $albumsRocniky = RocnikyModel::select('rok', 'tema_1beh', 'zobrazit_v_galerii')
+        ->where('zobrazit_v_galerii', 'ano')
+        ->get()
+        ->keyBy('rok')
+        ->toArray();
+    
+        $albumsAkce = AkceModel::select('termin_akce', 'tema_akce')
+        ->get()
+        ->keyBy('termin_akce')
+        ->toArray();
 
         return view("partials.galery", [
             'event' => $event,
-            'year' => $year,
+            'date' => $date,
             'images' => $images,
-            'albums_rocniky' => $albums_rocniky,
-            'albums_akce' => $albums_akce,
+            'albumsRocniky' => $albumsRocniky,
+            'albumsAkce' => $albumsAkce,
         ]);
     }
 
     public function showToGalerieRocniky()
     {
-        $albums_rocniky = RocnikyModel::select('rok', 'tema_1beh')->get()->toArray();
-        $reversed_album_rocniky = array_reverse($albums_rocniky);
+        $albumsRocniky = RocnikyModel::select('rok', 'tema_1beh', 'zobrazit_v_galerii')
+        ->where('zobrazit_v_galerii', 'ano')
+        ->get()
+        ->keyBy('rok')
+        ->toArray();
 
-        $transformed_album_rocniky = [];
-        foreach ($reversed_album_rocniky as $item) {
-            $transformed_album_rocniky[$item['rok']] = $item;
+        $reversedAlbumRocniky = array_reverse($albumsRocniky);
+
+        $transformedAlbumRocniky = [];
+        foreach ($reversedAlbumRocniky as $item) {
+            $transformedAlbumRocniky[$item['rok']] = $item;
         }
 
-        return view("galerie_rocniky", ['albums_rocniky' => $transformed_album_rocniky]);
+        return view("galerie_rocniky", ['albumsRocniky' => $transformedAlbumRocniky]);
     }
 
-    private function getImagesForYear($event, $year)
+    public function showToGalerieAkce()
     {
-        $directory = public_path("images/{$event}/{$year}");
+        $albumsAkce = AkceModel::select('termin_akce', 'tema_akce')
+        ->get()
+        ->keyBy('termin_akce')
+        ->toArray();
+
+        $reversedAlbumAkce = array_reverse($albumsAkce);
+
+        $transformedAlbumRocniky = [];
+        foreach ($reversedAlbumAkce as $item) {
+            $transformedAlbumAkce[$item['termin_akce']] = $item;
+        }
+
+        return view("galerie_akce", ['albumsAkce' => $transformedAlbumAkce]);
+    }
+
+    private function getImagesForYear($event, $date)
+    {
+        $directory = public_path("images/{$event}/{$date}");
         if (!is_dir($directory)) return [];
 
-        return array_map(function ($file) use ($event, $year) {
-            return "images/{$event}/{$year}/" . basename($file);
+        return array_map(function ($file) use ($event, $date) {
+            return "images/{$event}/{$date}/" . basename($file);
         }, glob("{$directory}/*.jpg"));
     }
 }
