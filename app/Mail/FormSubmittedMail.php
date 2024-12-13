@@ -66,6 +66,10 @@ class FormSubmittedMail extends Mailable
         })->toArray();
     }
     public function build(){
-        return $this->markdown('emails.prihlaska_email');
+        return $this->markdown('emails.prihlaska_email')
+                    ->attach(public_path('images/logo_email.png'), [
+                        'as' => 'logo_kytara_cerna.png',
+                        'mime' => 'image/png',
+                    ]);
     }
 }
