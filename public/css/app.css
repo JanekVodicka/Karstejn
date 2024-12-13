@@ -663,7 +663,7 @@ footer a {
   box-shadow: rgba(0, 0, 0, 0.75) 0px 5px 15px;
 }
 
-.behy-grid-item a {
+.behy-grid-item .btn-prihlaska {
   text-decoration: none;
   color: black;
   display: block;
