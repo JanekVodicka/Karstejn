@@ -7,15 +7,15 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\DbViewController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\SettingsController;
 
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::get('/', [IndexController::class, 'showToIndex'])
+->name('index');
 
-Route::get('galerie_akce', function () {
-    return view('galerie_akce');
-})->name('galerie_akce');
+Route::get('galerie_akce', [GalleryController::class, 'showToGalerieAkce']
+)->name('galerie_akce');
 
 Route::get('galerie_ostatni', function () {
     return view('galerie_ostatni');
@@ -31,14 +31,11 @@ Route::get('galerie_videa', function() {
 Route::get('info',[InfoController::class, 'showToInfo'])
 ->name('info');
 
-
 Route::get('kronika', function() {
     return view('kronika');
 })->name('kronika');
 
-Route::get('prihlaska', function() {
-    return view('prihlaska');
-})->name('prihlaska');
+Route::get('prihlaska',[SettingsController::class, 'getValueFromSettingsToPrihlaska'])->name('prihlaska');
 
 Route::get('login', function(){
     return view('login');
@@ -58,9 +55,9 @@ Route::get('prihlasky-private', [DbViewController::class, 'showPrihlaskyDb'])
     ->name('prihlasky-private');
  
 // Route accessible by all auth
-Route::get('/settings', function () {
-    return view('settings');
-})->name('settings')->middleware('auth'); // Use 'auth' middleware for all users
+Route::get('/settings', [SettingsController::class,'getValueFromSettingsToSettings'])->name('settings')->middleware('auth'); // Use 'auth' middleware for all users
+
+Route::post('update_settings', [SettingsController::class, 'saveSettings'])->name('update.settings');
 
 Route::post('logout', function () {
     Auth::logout();

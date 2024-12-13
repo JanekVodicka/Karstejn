@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Models\FormModel;
 use App\Models\RocnikyModel;
 use Illuminate\Support\Carbon;
@@ -50,8 +49,8 @@ class FormController extends Controller
         // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
 
         // 6. Návrat na stránku
-        $message_valid = 'Formulář byl úspěšně odeslán.';
-        return redirect()->back()->with('success', $message_valid);
+        $messageValid = 'Formulář byl úspěšně odeslán.';
+        return redirect()->back()->with('success-prihlaska', $messageValid);
     }
 
     public function storeToDb(Request $request)
@@ -92,7 +91,8 @@ class FormController extends Controller
         $formdata = FormModel::create($validatedData);
 
         // Uložení VS do databáze
-        $year = Carbon::now()->format('Y');
+        // $year = Carbon::now()->format('Y');
+        $year = $this->getRocnikFromDb()->rok;
         $idPart = str_pad($formdata->id % 1000, 3, '0', STR_PAD_LEFT);
         $formdata->variable_symbol = $year . '01' . $idPart;
         $formdata->save();
