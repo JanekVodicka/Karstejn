@@ -97,7 +97,7 @@
                         <label class="main-label required">Místo nástupu:</label>
                         <div class="input-box-radio">
                             <div>
-                                <input type="radio" id="Tabor" name="misto_nastupu" value="Tábor" onclick="toggleTextInput()" checked="checked">
+                                <input type="radio" id="Tabor" name="misto_nastupu" value="Tábor" onclick="toggleTextInput()">
                                 <label for="Tabor">Tábor</label>
                             </div>
                             <div>
@@ -119,7 +119,7 @@
                         <label class="main-label required">Plavec:</label>
                         <div class="input-box-radio">
                             <div>
-                                <input type="radio" id="plavec-ano" name="plavec" value="Ano" required checked="checked">
+                                <input type="radio" id="plavec-ano" name="plavec" value="Ano" required>
                                 <label for="plavec-ano">Ano</label>
                             </div>
                             <div>
@@ -140,7 +140,7 @@
                                 <label for="S">S</label>
                             </div>
                             <div>
-                                <input type="radio" id="M" name="velikost_trika" value="M" checked="checked">
+                                <input type="radio" id="M" name="velikost_trika" value="M">
                                 <label for="M">M</label>
                             </div>
                             <div>
@@ -187,19 +187,19 @@
                         <a href="{{ asset('documents/Ochrana osobních údajů 2024.pdf') }}" target="_blank">Podmínky o zpracování údajů</a>
                     </div>
                     <div>
-                        <input type="checkbox" id="gen-terms-and-cond" name="general_terms_and_conditions" checked="checked">
+                        <input type="checkbox" id="gen-terms-and-cond" name="general_terms_and_conditions">
                         <label for="gen-terms-and-cond">Všeobecné podmínky LT Karštejn</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="camp-rules" name="camp_rules" checked="checked">
+                        <input type="checkbox" id="camp-rules" name="camp_rules">
                         <label for="camp-rules">Táborový řád</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="ap-storno" name="application_storno" checked="checked">
+                        <input type="checkbox" id="ap-storno" name="application_storno">
                         <label for="ap-storno">Podmínky stornování přihlášky</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="data-privacy" name="data_privacy" checked="checked">
+                        <input type="checkbox" id="data-privacy" name="data_privacy">
                         <label for="data-privacy">Podmínky o zpracování údajů</label>
                     </div>
                 </div>
@@ -215,7 +215,7 @@
                         dodržují postupy pro zamezení zneužití Vašich osobních údajů.</p>
                     <div class="input-box-radio">
                         <div>
-                            <input type="radio" id="photo-ano" name="photos_agreement" value="Ano" required checked="checked">
+                            <input type="radio" id="photo-ano" name="photos_agreement" value="Ano" required>
                             <label for="photo-ano">Ano</label>
                         </div>
                         <div>
@@ -228,7 +228,7 @@
                     <h4 class="required">Chci vystavit fakturu pro zaměstnavatele</h4>
                     <div class="input-box-radio">
                         <div>
-                            <input type="radio" id="facture-ano" name="facture" value="Ano" required checked="checked">
+                            <input type="radio" id="facture-ano" name="facture" value="Ano" required>
                             <label for="facture-ano">Ano</label>
                         </div>
                         <div>
