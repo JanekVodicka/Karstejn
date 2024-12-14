@@ -14,3 +14,5 @@ jobs:
         server: 365139.w39.wedos.net
         username: w365139_janekvodicka
         password: ${{ secrets.ftp_password }}
+        server-dir: /www/domains/zkouska.karstejn.cz/
+        timeout: 60000
