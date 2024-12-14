@@ -1,31 +1,40 @@
+name: Deploy via FTP
 on:
   push:
     branches:
+      - test
       - main
-  # Enables manually triggering of Workflow with file synchronization option
-  workflow_dispatch:
-    inputs:
-      sync:
-        description: "File synchronization"
-        required: true
-        default: "delta"
 
 jobs:
-  deploy-master:
-    name: "main branch"
-    if: ${{ github.ref == 'refs/heads/main' }}
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4     
+
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+
+      - name: Set environment variables
+        run: |
+          echo "Setting environment variables based on the branch..."
+          if [[ "${{ github.ref }}" == "refs/heads/test" ]]; then
+            echo "FTP_HOST=${{ secrets.FTP_HOST_TEST }}" >> $GITHUB_ENV
+            echo "FTP_USER=${{ secrets.FTP_USER_TEST }}" >> $GITHUB_ENV
+            echo "FTP_PASS=${{ secrets.FTP_PASS_TEST }}" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "FTP_HOST=${{ secrets.FTP_HOST_PROD }}" >> $GITHUB_ENV
+            echo "FTP_USER=${{ secrets.FTP_USER_PROD }}" >> $GITHUB_ENV
+            echo "FTP_PASS=${{ secrets.FTP_PASS_PROD }}" >> $GITHUB_ENV
+          fi
+          echo "Environment variables set."
+
+      - name: Deploy to FTP
+        uses: BitwaySystem/git-ftp-sync@v1.0.0
         with:
-          fetch-depth: 0
-      - name: "Deploy"
-        uses: milanmk/actions-file-deployer@master
-        with:
-          remote-protocol: "ftp"
-          remote-host: "365139.w39.wedos.net"
-          remote-user: "w365139_janekvodicka"
-          ssh-private-key: ${{ secrets.ftp_password }}
-          remote-path: "/www/domains/zkouska.karstejn.cz"
+          ftp_host: ${{ env.FTP_HOST }}
+          ftp_user: ${{ env.FTP_USER }}
+          ftp_pass: ${{ env.FTP_PASS }}
+          branch: ${{ github.ref }}
+          extract_path: "/"

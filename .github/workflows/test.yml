@@ -28,4 +28,4 @@ jobs:
           remote-host: "365139.w39.wedos.net"
           remote-user: "w365139_janekvodicka"
           ssh-private-key: ${{ secrets.ftp_password }}
-          remote-path: "/www/domains/zkouska.karstejn.cz"
+          remote-path: "/www/domains/test.karstejn.cz"
