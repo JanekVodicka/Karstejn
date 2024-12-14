@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - test
-      - main
+      #- main
 
 jobs:
   deploy:
