@@ -51,7 +51,7 @@
                             <img id="totem" src="{{ asset('images/drawing_totem.jpg') }}" alt="Totem">
                             <p>Náš karštejnský tým se skládá z nadšených vedoucích a instruktorů, kteří pečlivě plánují a
                                 připravují každou část tábora, a to nejen během léta, ale po celý rok.</p><br>
-                            <p>še dva běhy spolupracují, aby udržovaly tábor v kondici, pořádají brigády a setkání, která
+                            <p>Naše dva běhy spolupracují, aby udržovaly tábor v kondici, pořádají brigády a setkání, která
                                 nejen posilují týmového ducha, ale také rozvíjejí naše schopnosti a nápady.</p><br>
                             <p>Naši zkušení a proškolení vedoucí spolu s kvalifikovanou zdravotnicí zajišťují pro děti
                                 bezpečný prostor, kde se mohou plně ponořit do táborového života.</p>

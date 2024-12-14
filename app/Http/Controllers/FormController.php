@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FormModel;
+use App\Models\PrihlaskyFrontaModel;
 use App\Models\RocnikyModel;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
@@ -40,7 +41,16 @@ class FormController extends Controller
         $wordPaths = $this->storeWordDoc($formData, $folderPathPatient, $rocnik);
 
         // 5 Odeslání na drive, uložení lokálně a zaslání emailu
-        ProcessFormSubmission::dispatch($formData, $wordPaths, $folderPathPatient, $rocnik);
+        // ProcessFormSubmission::dispatch($formData, $wordPaths, $folderPathPatient, $rocnik);
+
+        $dataPrihlasky = [
+            'formData' => json_encode($formData),
+            'wordPaths' => json_encode($wordPaths),
+            'folderPathPatient' => $folderPathPatient,
+            'rocnik' => json_encode($rocnik),
+        ];
+
+        PrihlaskyFrontaModel::create($dataPrihlasky);
 
         // 5.1 Odeslání na drive a uložení lokálně
         // $pdfPaths = $this->storePdfsToDrive($wordPaths, $folderPathPatient);
