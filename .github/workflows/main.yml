@@ -1,18 +1,31 @@
-on: push
-name: 🚀 Deploy website on push
+on:
+  push:
+    branches:
+      - main
+  # Enables manually triggering of Workflow with file synchronization option
+  workflow_dispatch:
+    inputs:
+      sync:
+        description: "File synchronization"
+        required: true
+        default: "delta"
+
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  deploy-master:
+    name: "main branch"
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v4
-    
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: 365139.w39.wedos.net
-        username: w365139_janekvodicka
-        password: ${{ secrets.ftp_password }}
-        server-dir: /www/domains/zkouska.karstejn.cz/
-        timeout: 60000
+      - name: "Checkout"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: "Deploy"
+        uses: milanmk/actions-file-deployer@master
+        with:
+          remote-protocol: "ftp"
+          remote-host: "365139.w39.wedos.net"
+          remote-user: "w365139_janekvodicka"
+          ssh-private-key: ${{ secrets.ftp_password }}
+          remote-path: "/www/domains/zkouska.karstejn.cz"
