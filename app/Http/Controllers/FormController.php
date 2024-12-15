@@ -9,12 +9,6 @@ use App\Models\RocnikyModel;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use PhpOffice\PhpWord\TemplateProcessor;
-use Google\Client;
-use Google\Service\Drive;
-use Google\Service\Drive\DriveFile;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\FormSubmittedMail;
-use App\Jobs\ProcessFormSubmission;
 
 
 class FormController extends Controller
@@ -23,7 +17,7 @@ class FormController extends Controller
         
         // 1. Uložení do databáze
         $formData = $this->storeToDb($request);
-
+ 
         // 2. Hodnoty z tabulky databáze Rocniky
         $rocnik = $this->getRocnikFromDb();
 
@@ -40,9 +34,10 @@ class FormController extends Controller
         // 4. Word vyplnění a uložení lokálně
         $wordPaths = $this->storeWordDoc($formData, $folderPathPatient, $rocnik);
 
-        // 5 Odeslání na drive, uložení lokálně a zaslání emailu
+        // 5 Background Job: Odeslání na drive, uložení lokálně a zaslání emailu
         // ProcessFormSubmission::dispatch($formData, $wordPaths, $folderPathPatient, $rocnik);
 
+        // 6. Vygenerování záznamu
         $dataPrihlasky = [
             'formData' => json_encode($formData),
             'wordPaths' => json_encode($wordPaths),
@@ -52,13 +47,7 @@ class FormController extends Controller
 
         PrihlaskyFrontaModel::create($dataPrihlasky);
 
-        // 5.1 Odeslání na drive a uložení lokálně
-        // $pdfPaths = $this->storePdfsToDrive($wordPaths, $folderPathPatient);
-
-        // 5.2 Email
-        // Mail::to($formData->parent_email)->send(new FormSubmittedMail($formData, $pdfPaths, $rocnik));
-
-        // 6. Návrat na stránku
+        // 7. Návrat na stránku
         $messageValid = 'Formulář byl úspěšně odeslán.';
         return redirect()->back()->with('success-prihlaska', $messageValid);
     }
@@ -166,83 +155,5 @@ class FormController extends Controller
             $wordPaths[] = $this->generateWordDocument($folderPathPatient, $wordDocumentName,$template, $formData, $rocnik);
         }
         return $wordPaths;
-    }
-
-    private function getGoogleClient() {
-        $client = new Client();
-        $client->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
-        $client->setClientSecret(env('GOOGLE_DRIVE_CLIENT_SECRET'));
-        $client->setAccessType('offline');
-       
-        $refreshToken = env('GOOGLE_DRIVE_REFRESH_TOKEN');
-
-        // Validate that the refresh token exists
-        if (empty($refreshToken)) {
-            throw new \Exception("Refresh token is missing in .env file.");
-        }
-    
-        // Set a dummy token structure to include the refresh token
-        $client->setAccessToken([
-            'access_token' => '', // Dummy value, will be refreshed
-            'expires_in' => 0,   // Expired dummy value
-            'refresh_token' => $refreshToken,
-        ]);
-    
-        // Refresh the token if it is expired
-        if ($client->isAccessTokenExpired()) {
-            $newToken = $client->fetchAccessTokenWithRefreshToken($refreshToken);
-    
-            // Check if token fetch was successful
-            if (isset($newToken['error'])) {
-                throw new \Exception("Failed to refresh token: " . $newToken['error_description']);
-            }
-    
-            $client->setAccessToken($newToken);
-        }
-    
-        return $client;
-    }
-
-    private function storePdfsToDrive($wordPaths, $folderPathPatient){
-        $client = $this->getGoogleClient();
-        $driveService = new Drive($client);
-
-        $index = 0;
-
-        // Process each PDF
-        foreach ($wordPaths as $wordpath) {
-            
-            $wordDocumentBaseName = basename($wordpath,'.docx');
-
-            // Step 1: Upload Word document to Google Drive and convert it to Google Docs
-            $fileMetaData = new DriveFile([
-                'name' => $wordDocumentBaseName,
-                'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')],
-                'mimeType' => 'application/vnd.google-apps.document'
-            ]);
-    
-            $content = file_get_contents($wordPaths[$index]);
-            $uploadedFile = $driveService->files->create($fileMetaData, [
-                'data' => $content,
-                'mimeType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'uploadType' => 'multipart',
-                'fields' => 'id',
-            ]);
-    
-            $fileId = $uploadedFile->getId();
-
-            // Step 2: Export the file as a PDF
-            $response = $driveService->files->export($fileId, 'application/pdf', [
-                'alt' => 'media',
-            ]);
-    
-            // Step 3: Save the PDF file locally
-            $destinationPath = "{$folderPathPatient}/$wordDocumentBaseName.pdf";
-            file_put_contents($destinationPath, $response->getBody());
-            $pdfPaths[] = $destinationPath;
-            $index++;
-        }
-
-        return $pdfPaths;
     }
 }
