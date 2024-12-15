@@ -3,10 +3,10 @@
 <h1>Dobrý den,</h2>
 <br>
 <br>
-<p>Děkujeme za přihlášení Vašeho dítěte na 1. běh letního táboéra Karštejn v termínu <strong>{{ $rocnik->termin_1beh }}</strong>.</p>
-<p>Prosíme o kontrolu Vámi odeslaných informací a následné vyplnění formulářů, které nalzenete v příloze tohoto emailu.</p>
+<p>Děkujeme za přihlášení Vašeho dítěte na 1. běh letního tábora Karštejn v termínu <strong>{{ $rocnik->termin_1beh }}</strong>.</p>
+<p>Prosíme o kontrolu Vámi odeslaných informací a následné vyplnění formulářů, které naleznete v příloze tohoto emailu.</p>
 <p>Vyplněné formuláře odevzdáte při předání dítěte.</p>
-<p>Platbu prosím proveďte s variabilním symbolem <strong>{{ $form->variable_symbol }}</strong>.</p>
+<p>Platbu prosím proveďte s variabilním symbolem <strong>{{ $form->variable_symbol }}</strong> na účet <strong>2701766219/2010</strong>.</p>
 <br>
 <h3>Kontaktní osoba:</h3>
 <ul>
