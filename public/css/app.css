@@ -41,12 +41,12 @@
   margin: 0px;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text !important;
 }
 
 body {
@@ -54,7 +54,7 @@ body {
   background-color: var(--background);
   /* Aby byl footer pořád dole */
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   min-height: 100vh;
 }
 
