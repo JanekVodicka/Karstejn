@@ -41,7 +41,7 @@
     </div>
 
         <section>
-            <div class="image-div" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.0)), url('{{ asset('images/oheň_freetime/DSC05635.JPG') }}'); opacity: 0.9;">
+            <div class="image-div" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.0)), url('{{ asset('images/ohen_freetime/DSC05635.JPG') }}'); opacity: 0.9;">
                 <h1>Chcete k nám?</h1>
             </div>
         </section>
@@ -90,16 +90,16 @@
                 <div class="info-photo-gallery">
                     <div class="column">
                         <div class="photo">
-                            <img class="photo-info" src="{{ asset('images/zázemí/_DSC0219.JPG') }}" alt="">
+                            <img class="photo-info" src="{{ asset('images/zazemi/_DSC0219.JPG') }}" alt="">
                         </div>
                     </div>
 
                     <div class="column">
                         <div class="photo">
-                            <img class="photo-info" src="{{ asset('images/zázemí/DSC03788.JPG') }}" alt="">
+                            <img class="photo-info" src="{{ asset('images/zazemi/DSC03788.JPG') }}" alt="">
                         </div>
                         <div class="photo">
-                            <img class="photo-info" src="{{ asset('images/zázemí/DSC03797.JPG') }}" alt="">
+                            <img class="photo-info" src="{{ asset('images/zazemi/DSC03797.JPG') }}" alt="">
                         </div>
                     </div>
                 </div>
@@ -115,22 +115,22 @@
                             <img class="photo-info" src="{{ asset('images/hry/DSC03976.JPG') }}" alt="">
                         </div>
                         <div class="photo">
-                            <img class="photo-info" src="{{ asset('images/děti_together/_DSC0381.JPG') }}" alt="">
+                            <img class="photo-info" src="{{ asset('images/deti_together/_DSC0381.JPG') }}" alt="">
                         </div>
                     </div>
 
                     <div class="column">
                         <div class="photo">
-                            <img class="photo-info" src="{{ asset('images/děti_together/DSC02253.JPG') }}" alt="">
+                            <img class="photo-info" src="{{ asset('images/deti_together/DSC02253.JPG') }}" alt="">
                         </div>
                         <div class="photo">
-                            <img class="photo-info" src="{{ asset('images/děti_together/DSC04027.JPG') }}" alt="">
+                            <img class="photo-info" src="{{ asset('images/deti_together/DSC04027.JPG') }}" alt="">
                         </div>
                     </div>
 
                     <div class="column">
                         <div class="photo">
-                            <img class="photo-info" src="{{ asset('images/děti_together/DSC04283.JPG') }}" alt="">
+                            <img class="photo-info" src="{{ asset('images/deti_together/DSC04283.JPG') }}" alt="">
                         </div>
                     </div>
                 </div>
