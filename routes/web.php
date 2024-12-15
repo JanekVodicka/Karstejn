@@ -8,6 +8,7 @@ use App\Http\Controllers\DbViewController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\PrihlaskyFrontaController;
 use App\Http\Controllers\SettingsController;
 
 
@@ -63,3 +64,5 @@ Route::post('logout', function () {
     Auth::logout();
     return redirect()->route('login');
 })->name('logout');
+
+Route::get('cron/run-job', [PrihlaskyFrontaController::class, 'cronRunJob'])->name('cron-run-job');
