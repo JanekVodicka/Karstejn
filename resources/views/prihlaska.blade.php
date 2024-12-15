@@ -11,6 +11,16 @@
                 <div class="alert alert-success">
                     {{ session('success-prihlaska') }}
                 </div>
+                <div class="prihlaska-instrukce">
+                    <p>Děkujeme za vyplnění přihlášky. Nyní Vámi vyplněné informace zpracováváme a do <strong>10 minut</strong> byste měli obdržet email s instrukcemi a vyplněnými formuláři. Pokud Vám žádný email nepříjde, zkontrolujte prosím nejprve složku Spam. Pokud zde email nenaleznete, neváhejte nás kontaktovat na adrese <strong>info@karstejn.cz</strong></p>
+                </div>
+            @else
+            <div class="prihlaska-instrukce">
+                @if ($spusteni_prihlasek == 'ano')
+                    <p>Vyplňte <strong>1x</strong> formulář a my vám pošleme všechny potřebné dokumenty na <strong>email</strong> vyplněné i s instrukcemi co je potřeba!</p><br>
+                    <p>Pokud máte nějaké dotazy, neváhejte nás kontaktovat. <br>E-mailovou schránku kontrolujeme nepravidelně, zpravidla <strong>2x týdně</strong>. Prosím, přednostně volejte nebo napište sms.</p>
+                @endif
+            </div>
             @endif
 
             @if ($errors->any())
@@ -19,13 +29,6 @@
                     Pokud jste zvolili "místo nástupu": jiné, ujistěte se, že jste vyplnili i kde přesně Vaše dítě nastoupí.
                 </div>
             @endif
-
-            <div class="prihlaska-instrukce">
-                @if ($spusteni_prihlasek == 'ano')
-                    <p>Vyplňte <strong>1x</strong> formulář a my vám pošleme všechny potřebné dokumenty na <strong>email</strong> vyplněné i s instrukcemi co je potřeba!</p><br>
-                    <p>Pokud máte nějaké dotazy, neváhejte nás kontaktovat. <br>E-mailovou schránku kontrolujeme nepravidelně, zpravidla <strong>2x týdně</strong>. Prosím, přednostně volejte nebo napište sms.</p>
-                @endif
-            </div>
 
             <form action="{{ route('prihlaska.store') }}" method="POST">
                 @csrf
