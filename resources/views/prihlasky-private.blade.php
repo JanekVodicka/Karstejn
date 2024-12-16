@@ -16,11 +16,12 @@
                             <th>Jméno dítěte</th>
                             <th>Místo nástupu</th>
                             <th>Plavec?</th>
-                            <th>Velikost trika?</th>
+                            <th>Velikost trika</th>
                             <th>Souhlas fotky</th>
-                            <th>Faktura?</th>
+                            <th>Faktura</th>
                             <th>Poznámka rodič</th>
                             <th>Poznámka dítě</th>
+                            <th>Odesláno?</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,7 @@
                         <td>{{ $prihlaska['facture'] }}</td>
                         <td>{{ $prihlaska['parent_note'] }}</td>
                         <td>{{ $prihlaska['child_note'] }}</td>
+                        <td>{{ $prihlaska['zprocesovano'] }}</td>
                     </tr>  
                     @endforeach
                     </tbody> 

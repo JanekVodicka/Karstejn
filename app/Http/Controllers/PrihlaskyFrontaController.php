@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\FormSubmittedMail;
 use App\Models\PrihlaskyFrontaModel;
 use App\Models\FormModel;
-use App\Models\RocnikyModel;
 use Google\Client;
 use Google\Service\Drive;
 use phpseclib3\Crypt\RC2;
@@ -41,7 +40,12 @@ class PrihlaskyFrontaController extends Controller
             Mail::to($formModel->parent_email)->send(new FormSubmittedMail($formModel, $pdfPaths, $rocnik));
 
             $prihlaska->zprocesovano = 1;
-            $prihlaska->save();   
+            $prihlaska->save();
+            $prihlaskyDB = FormModel::find($formModel->id);
+            if ($prihlaskyDB) {
+                $prihlaskyDB->zprocesovano = "Ano";
+                $prihlaskyDB->save();
+            }   
         }
     }
 

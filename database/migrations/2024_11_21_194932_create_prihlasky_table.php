@@ -33,6 +33,7 @@ return new class extends Migration
             $table->text('child_note');
             $table->string('photos_agreement');
             $table->string('facture');
+            $table->string('zprocesovano');
             $table->timestamps();
         });
     }
