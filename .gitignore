@@ -22,4 +22,5 @@ yarn-error.log
 /.vscode
 /.zed
 
+# Ignore macOS system files
 .DS_Store
