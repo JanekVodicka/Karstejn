@@ -21,6 +21,7 @@
     <li>Jméno: {{ $form->child_first_name }} {{ $form->child_last_name }}</li>
     <li>Datum narození: {{ $form->child_birthday }} </li>
     <li>Adresa: {{ $form->child_street }}, {{ $form->child_city }}, {{ $form->child_zip }} </li>
+    <li>Léčí se u specialisty: {{ $form->specialista }}</li>
     <li>Poznámka: {{ $form->child_note }}</li>
 </ul>
 <h3>Další informace:</h3>

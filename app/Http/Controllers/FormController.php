@@ -72,6 +72,7 @@ class FormController extends Controller
             'misto_nastupu' => 'required|string|max:255',
             'plavec' => 'required|string|max:3',
             'velikost_trika' => 'required|string|max:3',
+            'specialista' => 'required|string|max:3',
             'child_note' => 'required|string',
             'photos_agreement' => 'required|string|max:3',
             'facture' => 'required|string|max:3',
@@ -125,6 +126,7 @@ class FormController extends Controller
         $templateProcessor->setValue('DITE_ULICE', $formData->child_street);
         $templateProcessor->setValue('DITE_OBEC', $formData->child_city);
         $templateProcessor->setValue('DITE_PSC', $formData->child_zip);
+        $templateProcessor->setValue('SPECIALISTA', $formData->specialista);
         $templateProcessor->setValue('DITE_POZNAMKA', $formData->child_note);
         $templateProcessor->setValue('ROK', $rocnik->rok);
         $templateProcessor->setValue('TERMIN', $rocnik->termin_1beh);

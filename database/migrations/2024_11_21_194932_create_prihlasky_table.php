@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('misto_nastupu');
             $table->string('plavec');
             $table->string('velikost_trika');
+            $table->string('specialista');
             $table->text('child_note');
             $table->string('photos_agreement');
             $table->string('facture');

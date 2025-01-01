@@ -4,9 +4,6 @@
     <div class="container">
         <div id="prihlaska">
             <h2>Přihláška</h2>
-            <div class="prihlaska-status">
-                <h4 class="{{ $spusteni_prihlasek == 'ano' ? 'prihlaska-status-aktivni' : ''}}">{{ $spusteni_prihlasek == 'ano' ? 'Přihlášky spuštěny' : 'Přihlášky nedostupné'}}</h4>
-            </div>
             @if (session('success-prihlaska'))
                 <div class="alert alert-success">
                     {{ session('success-prihlaska') }}
@@ -16,6 +13,9 @@
                 </div>
             @else
             <div class="prihlaska-instrukce">
+                <div class="prihlaska-status">
+                    <h4 class="{{ $spusteni_prihlasek == 'ano' ? 'prihlaska-status-aktivni' : ''}}">{{ $spusteni_prihlasek == 'ano' ? 'Přihlášky spuštěny' : 'Přihlášky nedostupné'}}</h4>
+                </div>
                 @if ($spusteni_prihlasek == 'ano')
                     <p>Vyplňte <strong>1x</strong> formulář a my vám pošleme všechny potřebné dokumenty na <strong>email</strong> vyplněné i s instrukcemi co je potřeba!</p><br>
                     <p>Pokud máte nějaké dotazy, neváhejte nás kontaktovat. <br>E-mailovou schránku kontrolujeme nepravidelně, zpravidla <strong>2x týdně</strong>. Prosím, přednostně volejte nebo napište sms.</p>
@@ -157,6 +157,20 @@
                             <div>
                                 <input type="radio" id="XXL" name="velikost_trika" value="XXL">
                                 <label for="XXL">XXL</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label class="main-label required">Léčí se u specialisty:</label>
+                        <p>(Kardiolog, psycholog, psychiatr, alergolog) Pokud ano, specifikujte, prosím, v poznámce.</p>
+                        <div class="input-box-radio">
+                            <div>
+                                <input type="radio" id="specialista-ano" name="specialista" value="Ano" required>
+                                <label for="specialista-ano">Ano</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="specialista-ne" name="specialista" value="Ne">
+                                <label for="specialista-ne">Ne</label>
                             </div>
                         </div>
                     </div>

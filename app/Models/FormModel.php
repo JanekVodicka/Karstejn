@@ -28,6 +28,7 @@ class FormModel extends Model
         'misto_nastupu',
         'plavec',
         'velikost_trika',
+        'specialista',
         'child_note',
         'photos_agreement',
         'facture',

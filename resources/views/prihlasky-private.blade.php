@@ -20,6 +20,7 @@
                             <th>Souhlas fotky</th>
                             <th>Faktura</th>
                             <th>Poznámka rodič</th>
+                            <th>Specialista</th>
                             <th>Poznámka dítě</th>
                             <th>Odesláno?</th>
                         </tr>
@@ -39,6 +40,7 @@
                         <td>{{ $prihlaska['photos_agreement'] }}</td>
                         <td>{{ $prihlaska['facture'] }}</td>
                         <td>{{ $prihlaska['parent_note'] }}</td>
+                        <td>{{ $prihlaska['specialista'] }}</td>
                         <td>{{ $prihlaska['child_note'] }}</td>
                         <td>{{ $prihlaska['zprocesovano'] }}</td>
                     </tr>  
