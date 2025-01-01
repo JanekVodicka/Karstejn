@@ -127,8 +127,8 @@ class FormController extends Controller
         $templateProcessor->setValue('DITE_PSC', $formData->child_zip);
         $templateProcessor->setValue('DITE_POZNAMKA', $formData->child_note);
         $templateProcessor->setValue('ROK', $rocnik->rok);
-        $templateProcessor->setValue('TERMIN', $rocnik->termin);
-        $templateProcessor->setValue('ZACATEK', explode(' - ',$rocnik->termin)[0]);
+        $templateProcessor->setValue('TERMIN', $rocnik->termin_1beh);
+        $templateProcessor->setValue('ZACATEK', explode(' - ',$rocnik->termin_1beh)[0]);
         $templateProcessor->setValue('CENA', $rocnik->cena);
 
         $templateProcessor->saveAs($outputPath);
