@@ -5,7 +5,7 @@
         <div id="kronika">
             <h2>Kronika</h2>
             <div class="kronika-obsah">
-                <p>Na této sekci usilovně pracujeme</p>
+                <p>Na této sekci usilovně pracujeme :)</p>
             </div>
         </div>
     </div>
