@@ -54,7 +54,7 @@
                     <p>Jako každý rok i letos se uskuteční 2 běhy našeho letního tábora.</p>
                     <p>Pro děti od <strong>7</strong> do <strong>15</strong> let</p>
                     <p>Na <strong>14 dní</strong> (termín viz běhy níže)</p><br>
-                    <p><strong>Cena: </strong> {{ $data_rocniky['cena'] }} Kč <br>(cena zahrnuje ubytování, stravu, dopravu a pestrý program)</p>
+                    <p><strong>Cena: </strong> {{ $data_rocniky['cena'] }},- Kč <br>(cena zahrnuje ubytování, stravu, dopravu a pestrý program)</p>
                 </div>
 
                 <div class="behy-grid">
