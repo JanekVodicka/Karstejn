@@ -170,17 +170,10 @@
                     </div>
 
                     <div class="section-download-grid-item">
-                        <p>Přihláškové formuláře:</p>
-                    </div>
-                    <div class="section-download-grid-item">
-                        <a href="documents/seznam.pdf" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
-                    </div>
-
-                    <div class="section-download-grid-item">
                         <p>Seznam věcí s sebou:</p>
                     </div>
                     <div class="section-download-grid-item">
-                        <a href="documents/seznam.pdf" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
+                        <a href="{{ asset('documents/Doporuceny_seznam_veci.pdf') }}" download class="btn-download">Stáhnout <i class="fa fa fa-download"></i></a>
                     </div>    
                 </div>
             </div>
