@@ -70,7 +70,7 @@
                         <div class="datum-behu">{{ $data_rocniky['termin_2beh'] }}</div>
                         <h3>{{ $data_rocniky['tema_2beh'] }}</h3>
                         <a href="{{ asset('images/plakaty/plakat_aktualni_II_beh.jpg') }}"><img src="{{ asset('images/plakaty/plakat_aktualni_II_beh.jpg') }}"></a>
-                        <a class="btn-prihlaska {{ $aktivace_prihlasek_2beh == 'ano' ? 'prihlasky-zahajeny' : 'prihlasky-nezahajeny'}}" href="https://www.karstejn.org/#prihlaska" target="_blank">{{ $aktivace_prihlasek_2beh == 'ano' ? 'Přihlašování zahájeno' : 'Přihlašování ukončeno'}}</a> 
+                        <a class="btn-prihlaska {{ $aktivace_prihlasek_2beh == 'ano' ? 'prihlasky-zahajeny' : 'prihlasky-nezahajeny'}}" href="https://www.karstejn.org/#prihlaska" target="_blank">{{ $aktivace_prihlasek_2beh == 'ano' ? 'Přihlašování zahájeno' : 'Přihlašky se připravují'}}</a> 
                     </div>
                 </div>
             </div>
