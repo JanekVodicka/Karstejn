@@ -10,6 +10,7 @@ class DbViewController extends Controller
 {
     public function showPrihlaskyDb() {
         $data = FormModel::all();
-        return view('prihlasky-private', ["prihlasky"=>$data]);
+        $pocet_prihlasek = $data->count();
+        return view('prihlasky-private', ["prihlasky"=>$data, "pocet_prihlasek"=>$pocet_prihlasek]);
     }
 }

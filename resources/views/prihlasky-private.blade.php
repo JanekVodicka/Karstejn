@@ -4,6 +4,16 @@
     <div class="container">
         <div class="settings">
             @include('partials.settings-nav', ['active' => 'prihlasky-private'])
+            <div class="prihlasky-status">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><strong>Celkový počet přihlášených:</strong></td>
+                            <td>{{ $pocet_prihlasek }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="table-container">
                 <table>
                     <thead>
