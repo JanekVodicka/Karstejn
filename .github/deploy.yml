@@ -1,0 +1,40 @@
+name: 🚀 FTP Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+jobs:
+  ftp-deploy:
+    name: 📂 Upload changed files via FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🧠 Set FTP target based on branch
+        id: vars
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "target=${{ secrets.FTP_MAIN_TARGET }}" >> $GITHUB_OUTPUT
+          else
+            echo "target=${{ secrets.FTP_TEST_TARGET }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🚀 Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ steps.vars.outputs.target }}/
+          local-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/node_modules/**
+            storage/**
+            .env
