@@ -24,16 +24,6 @@ jobs:
             echo "target=${{ secrets.FTP_TEST_TARGET }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: 🔍 Debug FTP root
-        run: |
-          # show current directory
-          curl -v --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" \
-            --quote "PWD" \
-            ftp://${{ secrets.FTP_SERVER }}/ 2>&1 | sed -n 's#^< PWD \(\".*\"\).*#Working dir: \1#p'
-          # list its contents
-          curl -v --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" \
-            ftp://${{ secrets.FTP_SERVER }}/ 2>&1 | sed -n 's/^< //' 
-
       - name: 🚀 Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -44,6 +34,7 @@ jobs:
           local-dir: ./
           dangerous-clean-slate: false
           exclude: |
+            ***/public/
             **/.git*
             **/node_modules/**
             storage/**
