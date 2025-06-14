@@ -34,8 +34,11 @@ jobs:
           local-dir: ./
           dangerous-clean-slate: false
           delete: false
+          skip-dir-delete: true
+          skip-file-delete: true
           exclude: |
             **/.git*
             **/node_modules/**
             storage/**
+            public/cron/**
             .env
