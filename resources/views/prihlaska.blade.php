@@ -253,6 +253,9 @@
                             <label for="facture-ne">Ne</label>
                         </div>
                     </div>
+                    <div>
+                        <input type="text" name="email_confirm" style="display:none">
+                    </div>
                 </div>
                 <div class="submit-form">
                     <input type="submit" value="Odeslat" @if ($spusteni_prihlasek == 'ne') disabled @endif>

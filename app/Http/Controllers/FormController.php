@@ -15,6 +15,11 @@ class FormController extends Controller
 {
     public function handleFormSubmission(Request $request){
         
+        // Honeypot check
+        if ($request->filled('email_confirm')) {
+            abort(403, 'Spam detected');
+        }
+
         // 1. Uložení do databáze
         $formData = $this->storeToDb($request);
  
