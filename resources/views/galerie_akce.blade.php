@@ -12,7 +12,7 @@
                             <div class="img-text-hidden">{{ $album['tema_akce'] }}</div>
                         </a>
                     </div>
-                @endforeach
+                @endforeach 
             </div>
         </div>
     </div>
