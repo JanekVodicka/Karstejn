@@ -34,7 +34,7 @@ jobs:
           local-dir: ./
           dangerous-clean-slate: false
           exclude: |
-            ***/public/
+            /***/public/cron
             **/.git*
             **/node_modules/**
             storage/**
