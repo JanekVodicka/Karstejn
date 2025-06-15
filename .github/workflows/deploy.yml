@@ -19,9 +19,9 @@ jobs:
         id: vars
         run: |
           if [ "${GITHUB_REF##*/}" = "main" ]; then
-            echo "branch_dir=/www/domains/karstejn.cz" >> $GITHUB_OUTPUT
+            echo "branch_dir=/www/domains/karstejn.cz/" >> $GITHUB_OUTPUT
           else
-            echo "branch_dir=/www/domains/test.karstejn.cz" >> $GITHUB_OUTPUT
+            echo "branch_dir=/www/domains/test.karstejn.cz/" >> $GITHUB_OUTPUT
           fi
 
       - name: 🚀 Deploy via FTP
