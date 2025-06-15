@@ -18,10 +18,10 @@ jobs:
       - name: 🧠 Set FTP target based on branch
         id: vars
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "target=${{ secrets.FTP_MAIN_TARGET }}" >> $GITHUB_OUTPUT
+          if [ "${GITHUB_REF##*/}" = "main" ]; then
+            echo "branch_dir=/www/domains/karstejn.cz" >> $GITHUB_OUTPUT
           else
-            echo "target=${{ secrets.FTP_TEST_TARGET }}" >> $GITHUB_OUTPUT
+            echo "branch_dir=/www/domains/test.karstejn.cz" >> $GITHUB_OUTPUT
           fi
 
       - name: 🚀 Deploy via FTP
@@ -30,7 +30,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ steps.vars.outputs.target }}/
+          server-dir: ${{ steps.vars.outputs.branch_dir }}
           local-dir: ./
           dangerous-clean-slate: false
           exclude: |
@@ -38,3 +38,4 @@ jobs:
             **/node_modules/**
             storage/**
             .env
+            .ftp-deploy-sync-state-${{ github.ref_name }}.json
