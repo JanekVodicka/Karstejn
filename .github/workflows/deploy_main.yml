@@ -1,0 +1,41 @@
+name: 🚀 FTP Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+jobs:
+  ftp-deploy:
+    name: 📂 Upload changed files via FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🧠 Set FTP target based on branch
+        id: vars
+        run: |
+          if [ "${GITHUB_REF##*/}" = "main" ]; then
+            echo "branch_dir=/www/domains/karstejn.cz/" >> $GITHUB_OUTPUT
+          else
+            echo "branch_dir=/www/domains/test.karstejn.cz/" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🚀 Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ steps.vars.outputs.branch_dir }}
+          local-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/node_modules/**
+            storage/**
+            .env
+            .ftp-deploy-sync-state-${{ github.ref_name }}.json
