@@ -22,7 +22,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /www/domains/test.karstejn.cz/
           local-dir: ./
-          dangerous-clean-slate: false
+          state-name: test-sync-state.json
+          dangerous-clean-slate: true
           exclude: |
             **/.git*
             **/node_modules/**
