@@ -23,7 +23,7 @@ jobs:
           server-dir: /www/domains/test.karstejn.cz/
           local-dir: ./
           state-name: test-sync-state.json
-          dangerous-clean-slate: true
+          dangerous-clean-slate: false
           exclude: |
             **/.git*
             **/node_modules/**
