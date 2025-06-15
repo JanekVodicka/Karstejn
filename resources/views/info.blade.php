@@ -10,7 +10,7 @@
                         <section>
                             <div class="aktualita">
                                 <img id="plakat_2025" src="{{ asset('images/plakaty/plakat_aktualni.jpg') }}" alt="">
-                                <p>Neleníme a pilně chystáme následující ročník. Více info naleznete <a href="{{ route('info') }}#Karstejn-aktualni">zde</a>.</p>
+                                <p>Neleníme a pylně chystáme následující ročník. Více info naleznete <a href="{{ route('info') }}#Karstejn-aktualni">zde</a>.</p>
                             </div>
                         </section>
                         <section>
