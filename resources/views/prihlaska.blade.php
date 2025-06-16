@@ -17,7 +17,7 @@
                     <h4 class="{{ $spusteni_prihlasek == 'ano' ? 'prihlaska-status-aktivni' : ''}}">{{ $spusteni_prihlasek == 'ano' ? 'Přihlášky spuštěny' : 'Přihlášky nedostupné'}}</h4>
                 </div>
                 @if ($spusteni_prihlasek == 'ano')
-                    <p>Vyplňte <strong>1x</strong> formulář a my vám pošleme všechny potřebné dokumenty na <strong>email</strong> vyplněné i s instrukcemi co je potřeba!</p><br>
+                    <p>Vyplňte <strong>1x</strong> formulář a my vám pošleme všechny potřebné dokumenty na <strong>email</strong> - vyplněné i s instrukcemi co je potřeba!</p><br>
                     <p>Pokud máte nějaké dotazy, neváhejte nás kontaktovat. <br>E-mailovou schránku kontrolujeme nepravidelně, zpravidla <strong>2x týdně</strong>. Prosím, přednostně volejte nebo napište sms.</p>
                 @endif
             </div>
