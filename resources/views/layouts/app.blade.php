@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
-            --main-color: {{ request()->getHost() === 'test.karstejn.cz' ? '#607D8B' : 'rgba(0, 0, 0, 0.9)' }};
+            --main-color: {{ request()->getHost() === 'www.test.karstejn.cz' ? '#607D8B' : 'rgba(0, 0, 0, 0.9)' }};
         }
     </style>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
