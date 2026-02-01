@@ -63,14 +63,14 @@
                         <div class="datum-behu">{{ $data_rocniky['termin_1beh'] }}</div>
                         <h3>{{ $data_rocniky['tema_1beh'] }}</h3>
                         <a href="{{ asset('images/plakaty/plakat_aktualni.jpg') }}"><img src="{{ asset('images/plakaty/plakat_aktualni.jpg') }}"></a>
-                        <a class="btn-prihlaska {{ $spusteni_prihlasek == 'ano' ? 'prihlasky-zahajeny' : 'prihlasky-nezahajeny'}}" href="{{ route('prihlaska') }}">{{ $spusteni_prihlasek == 'ano' ? 'Přihlašování zahájeno' : 'Přihlašování ukončeno'}}</a>
+                        <a class="btn-prihlaska {{ $spusteni_prihlasek == 'ano' ? 'prihlasky-zahajeny' : 'prihlasky-nezahajeny'}}" href="{{ route('prihlaska') }}">{{ $spusteni_prihlasek == 'ano' ? 'Přihlašování zahájeno' : 'Přihlašení nedostupné'}}</a>
                     </div>
                     <div class="behy-grid-item">
                         <h2>II. běh</h2>
                         <div class="datum-behu">{{ $data_rocniky['termin_2beh'] }}</div>
                         <h3>{{ $data_rocniky['tema_2beh'] }}</h3>
                         <a href="{{ asset('images/plakaty/plakat_aktualni_II_beh.jpg') }}"><img src="{{ asset('images/plakaty/plakat_aktualni_II_beh.jpg') }}"></a>
-                        <a class="btn-prihlaska {{ $aktivace_prihlasek_2beh == 'ano' ? 'prihlasky-zahajeny' : 'prihlasky-nezahajeny'}}" href="https://prihlaska.karstejn.org" target="_blank">{{ $aktivace_prihlasek_2beh == 'ano' ? 'Přihlašování zahájeno' : 'Přihlašky se připravují'}}</a> 
+                        <a class="btn-prihlaska {{ $aktivace_prihlasek_2beh == 'ano' ? 'prihlasky-zahajeny' : 'prihlasky-nezahajeny'}}" href="https://prihlaska.karstejn.org" target="_blank">{{ $aktivace_prihlasek_2beh == 'ano' ? 'Přihlašování zahájeno' : 'Přihlašení nedostupné'}}</a> 
                     </div>
                 </div>
             </div>
