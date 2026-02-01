@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use Google\Client;
 use Google\Service\Drive;
+use Google\Service\Drive\DriveFile;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,6 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Mail\FormSubmittedMail;
 use Illuminate\Support\Facades\Mail;
+
 class ProcessFormSubmission implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -19,7 +21,7 @@ class ProcessFormSubmission implements ShouldQueue
     protected $wordPaths;
     protected $folderPathPatient;
     protected $rocnik;
-
+    
     /**
      * Create a new job instance.
      */
@@ -36,6 +38,9 @@ class ProcessFormSubmission implements ShouldQueue
      */
     public function handle()
     {
+        // Důležité: cron a CLI musí mít správnou timezone
+        date_default_timezone_set('UTC');
+
         $pdfPaths = $this->storePdfsToDrive($this->wordPaths, $this->folderPathPatient);
 
         Mail::to($this->formData->parent_email)->send(new FormSubmittedMail($this->formData, $pdfPaths, $this->rocnik));
@@ -43,19 +48,18 @@ class ProcessFormSubmission implements ShouldQueue
 
     private function getGoogleClient()
     {
-        $client = new Client();
-        $client->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
-        $client->setClientSecret(env('GOOGLE_DRIVE_CLIENT_SECRET'));
-        $client->setAccessType('offline');
-        $client->setAccessToken([
-            'access_token' => '',
-            'expires_in' => 0,
-            'refresh_token' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
-        ]);
+        $jsonPath = storage_path('app/google/service-account.json');
 
-        if ($client->isAccessTokenExpired()) {
-            $client->fetchAccessTokenWithRefreshToken(env('GOOGLE_DRIVE_REFRESH_TOKEN'));
+        if (!file_exists($jsonPath)) {
+            throw new \Exception("Google service account JSON not found: {$jsonPath}");
         }
+
+        $client = new Client();
+        $client->setAuthConfig($jsonPath);
+        $client->addScope([
+            Drive::DRIVE,
+            'https://www.googleapis.com/auth/documents',
+        ]);
 
         return $client;
     }
@@ -67,10 +71,10 @@ class ProcessFormSubmission implements ShouldQueue
         $pdfPaths = [];
 
         foreach ($wordPaths as $wordPath) {
-            $wordDocumentBaseName = basename($wordPath, '.docx');
+            $wordDocumentBaseName = pathinfo($wordPath, PATHINFO_FILENAME);
 
             // Upload Word document
-            $fileMetaData = new Drive\DriveFile([
+            $fileMetaData = new DriveFile([
                 'name' => $wordDocumentBaseName,
                 'parents' => [env('GOOGLE_DRIVE_FOLDER_ID')],
                 'mimeType' => 'application/vnd.google-apps.document',
@@ -92,7 +96,7 @@ class ProcessFormSubmission implements ShouldQueue
             ]);
 
             $destinationPath = "{$folderPathPatient}/{$wordDocumentBaseName}.pdf";
-            file_put_contents($destinationPath, $response->getBody());
+            file_put_contents($destinationPath, $response->getBody()->getContents());
             $pdfPaths[] = $destinationPath;
         }
 

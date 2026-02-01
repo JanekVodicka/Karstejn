@@ -57,23 +57,12 @@ class PrihlaskyFrontaController extends Controller
     }
 
     private function getGoogleClient()
-    {
-        $client = new Client();
-        $client->setClientId(env('GOOGLE_DRIVE_CLIENT_ID'));
-        $client->setClientSecret(env('GOOGLE_DRIVE_CLIENT_SECRET'));
-        $client->setAccessType('offline');
-        $client->setAccessToken([
-            'access_token' => '',
-            'expires_in' => 0,
-            'refresh_token' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
-        ]);
-
-        if ($client->isAccessTokenExpired()) {
-            $client->fetchAccessTokenWithRefreshToken(env('GOOGLE_DRIVE_REFRESH_TOKEN'));
-        }
-
-        return $client;
-    }
+{
+    $client = new \Google\Client();
+    $client->setAuthConfig(storage_path('app/google/service-account.json'));
+    $client->addScope([\Google\Service\Drive::DRIVE,'https://www.googleapis.com/auth/documents',]);
+    return $client;
+}
 
     private function storePdfsToDrive($wordPaths, $folderPathPatient)
     {
