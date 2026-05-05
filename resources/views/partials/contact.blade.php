@@ -7,7 +7,7 @@
                     <h3>Hlavní vedoucí:</h3>
                     <h4>Vendula Semrádová</h4>
                     <p>karstejn@post.cz</p>
-                    <p>+420 775 930 898</p>
+                    <p>+420 601 527 907</p>
                     <h3>Hospodář:</h3>
                     <h4>Jan Ubl</h4>
                     <p>+420 724 627 736</p>
